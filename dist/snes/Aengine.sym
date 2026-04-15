@@ -1,0 +1,36 @@
+; this file was created with wlalink by ville helin <ville.helin@iki.fi>.
+; no$gmb symbolic information for "Aengine.sfc".
+000000 tcc__registers
+000000 tcc__r0
+000002 tcc__r0h
+000004 tcc__r1
+000006 tcc__r1h
+000008 tcc__r2
+00000a tcc__r2h
+00000c tcc__r3
+00000e tcc__r3h
+000010 tcc__r4
+000012 tcc__r4h
+000014 tcc__r5
+000016 tcc__r5h
+000018 tcc__r9
+00001a tcc__r9h
+00001c tcc__r10
+00001e tcc__r10h
+000020 tcc__f2
+000022 tcc__f2h
+000024 tcc__f3
+000026 tcc__f3h
+000028 move_insn
+00002c move_backwards_insn
+018740 oammask
+018000 lkup32oamS
+018080 lkup32idT
+0180a0 lkup32idB
+0180c0 lkup16oamS
+0181c0 lkup16idT0
+018240 lkup16idT
+0182c0 lkup16idB
+018340 lkup8oamS
+018440 lkup8idT
+018640 lkup8idB

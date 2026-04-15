@@ -19,3 +19,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+------------------------------------------------------------------------------
+
+Aengine makes use of code adapted from GRRLIB as a reference for GX initialization and rendering.
+https://github.com/GRRLIB/GRRLIB
+Copyright (c) 2009-2025 The GRRLIB Team
+
+------------------------------------------------------------------------------
+
+Aengine includes oggplayer code originally by Hermes, with modifications by Tantric.
+Copyright (c) 2008 Francisco Muñoz 'Hermes' <www.elotrolado.net>
+
+------------------------------------------------------------------------------
+
+Aengine uses LodePNG for PNG decoding.
+https://github.com/lvandeve/lodepng
+Copyright (c) 2005-2026 Lode Vandevenne
+
+------------------------------------------------------------------------------
+
+Claude AI (Anthropic) was used as a programming assistant during development. (Fixed a lot bugs and helped me to understand better the GX hardware.)
+
+(Don't let AI code for you, use AI to improve your coding skills!)
+
+------------------------------------------------------------------------------

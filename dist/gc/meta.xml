@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+	<name>Template</name>
+	<version>Demo</version>
+	<release_date>20251205000000</release_date>
+	<coder>Alfombra de Madera</coder>
+	<short_description>Short description!</short_description>
+	<long_description>This is the other description!
+</long_description>
+
+</app>
+

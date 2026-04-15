@@ -1,0 +1,40 @@
+ifeq ($(strip $(PVSNESLIB_HOME)),)
+$(error "Please set PVSNESLIB_HOME in your environment.")
+endif
+
+# ─── Directorios de fuentes ───────────────────────────────────────────────────
+SRCDIRS := source \
+           source/engine \
+           source/engine/snes \
+           source/tiles \
+           source/objects \
+           source/effects \
+           source/scenes
+
+# ─── Configuración general ───────────────────────────────────────────────────
+export ROMNAME   := $(notdir $(CURDIR))
+export SOUNDBANK := assets/audio/snes/soundbank
+
+include $(CURDIR)/snes_rules
+
+# ─── Flags ───────────────────────────────────────────────────────────────────
+CFLAGS += -Wall -DCURRENT_PLATFORM=PLATFORM_SNES
+
+# ─── Targets ─────────────────────────────────────────────────────────────────
+.PHONY: all clean distclean bitmaps
+
+all: bitmaps $(ROMNAME).sfc
+	@mkdir -p $(CURDIR)/dist/snes
+	@mv $(ROMNAME).sfc  $(CURDIR)/dist/snes/
+	@mv $(ROMNAME).sym  $(CURDIR)/dist/snes/
+	@rm -f linkfile
+
+clean: cleanBuildRes cleanGfx cleanAudio
+
+distclean:
+	@echo distclean ...
+	@rm -f $(CURDIR)/dist/snes/$(ROMNAME).sfc
+	@rm -f $(CURDIR)/dist/snes/$(ROMNAME).sym
+
+bitmaps:
+	# conversiones con $(GFXCONV) cuando las necesites
