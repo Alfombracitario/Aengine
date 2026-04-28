@@ -25,6 +25,8 @@
 #define platformWordSize        4       // Natural word size in bytes (32-bit)
 #define platformStackAlign      8       // Required stack alignment in bytes (PPC ABI)
 #define platformHeapAlign       32      // Recommended heap allocation alignment in bytes
+#define platformHas64BitTypes   1       // Platform supports uint64_t / int64_t
+#define platformHasDouble       1       // Platform supports double (f64)
 
 // DMA
 #define platformDMAalign        32      // Required DMA buffer alignment in bytes (equals cache line size)

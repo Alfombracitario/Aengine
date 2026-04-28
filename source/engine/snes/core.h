@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CORE_H
 #define CORE_H
 
@@ -25,6 +26,8 @@
 #define platformWordSize        2       // Natural word size in bytes (16-bit)
 #define platformStackAlign      8       // Required stack alignment in bytes
 #define platformHeapAlign       16      // Recommended heap allocation alignment in bytes
+#define platformHas64BitTypes   0       // Platform supports uint64_t / int64_t
+#define platformHasDouble       0       // Platform supports double (f64)
 
 // DMA
 #define platformDMAalign        2       // Required DMA buffer alignment in bytes (equals cache line size)

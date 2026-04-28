@@ -1,6 +1,8 @@
+#pragma once
 #ifndef OBJECTMANAGER_H
 #define OBJECTMANAGER_H
-
+#include "engine/aengine.h"
+#if platformHasFPU && platformHas3D
 #include <stdint.h>
 #include "engine/texture.h"
 
@@ -54,4 +56,5 @@ void instanceManagerDestroyAll();
 
 extern Instance instancePool[MAX_INSTANCES];
 
+#endif
 #endif

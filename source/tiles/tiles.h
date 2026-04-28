@@ -1,17 +1,13 @@
 #pragma once
-#include <gccore.h>
-#include "engine/objectmanager.h"
-
-#define fromX 0
-#define fromY 1
-
+#include "engine/types.h"
+#define cord float//you can change this to int if you want.
 // Función de colisión 2D
-typedef void (*TileCollide)(Instance* p, int x, int y, int from);
+typedef void (*TileCollide)(int tx, int ty, cord* px, cord* py);
 
 // Función de dibujo opcional
 typedef void (*TileDraw)(int x, int y);
 
-// Información por tile
+// Información por tile 3D
 typedef struct {
     u16 uvFront;   // índice de sprite en atlas
     u16 uvLeft;

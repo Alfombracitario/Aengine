@@ -1,5 +1,5 @@
 #pragma once
-#include <gctypes.h>
+#include "engine/types.h"
 
 typedef struct Texture {
     u32 flags;

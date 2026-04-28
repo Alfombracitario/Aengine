@@ -1,16 +1,16 @@
 #include "tiles/tiles.h"
-
+#include "engine/types.h"
 u8* tiles = NULL;
 u32 roomWidth;
 u32 roomHeight;
 
 //colissions
-void solid(Instance* p, int tx, int ty, int from) {
+void solid(int tx, int ty, cord* px, cord* py) {
     //collision code here
     return;
 }
 
-void empty(Instance* p, int x, int y, int from) {
+void empty(int tx, int ty, cord* px, cord* py) {
     return;
 }
 static void drawNothing(int x, int y ){

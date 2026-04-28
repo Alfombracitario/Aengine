@@ -1,6 +1,6 @@
 #ifndef BUILD25SCENE_H
 #define BUILD25SCENE_H
-
+#include "tiles/tiles.h"
 
 void build25Dscene(const u8* roomData, size_t dataSize, u8* neightbors);
 void genSolidLUT(uint8_t *LUT);

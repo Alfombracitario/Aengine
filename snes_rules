@@ -138,13 +138,13 @@ ifeq ($(DEBUG),1)
 	cp $(@:.obj=.asp) $(@:.obj=.ctf.03.dbg)
 endif
 	@rm $(@:.obj=.asp) $(@:.obj=.ps)
-	$(AS) -d -s -x -o $@ $(@:.obj=.asm)
+	$(AS) -d -s -x -I $(PVSNESLIB_HOME)/devkitsnes/include -o $@ $(@:.obj=.asm)
 
 # .asm → .obj directo
 $(BUILD_DIR)/%.obj: %.asm
 	@mkdir -p $(dir $@)
 	@echo Assembling ... $(notdir $<)
-	$(AS) -d -s -x -o $@ $<
+	$(AS) -d -s -x -I $(PVSNESLIB_HOME)/devkitsnes/include -o $@ $
 
 # ─── Link ─────────────────────────────────────────────────────────────────────
 %.sfc: $(OFILES)

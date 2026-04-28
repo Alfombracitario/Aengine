@@ -1,4 +1,5 @@
 #include "engine/objectmanager.h"
+#if platformHasFPU && platformHas3D
 Instance instancePool[MAX_INSTANCES];
 
 void instanceManager_Init() {
@@ -72,3 +73,4 @@ void instanceManagerDestroyAll() {
             instanceDestroy(i);
     }
 }
+#endif

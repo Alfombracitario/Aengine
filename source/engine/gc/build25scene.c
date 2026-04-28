@@ -1,6 +1,6 @@
-#include <gccore.h>
-#include "tiles/tiles.h"
 #include "engine/gc/build25scene.h"
+#include "engine/texture.h"
+#include <gccore.h>
 
 extern u16 sheetHeight;
 extern Texture* gfxTiles;
