@@ -1,30 +1,50 @@
 #include "engine/gc/render.h"
 #include "engine/gc/camera.h"
 //muy simplificado
-void setCamera3D(float fov, u32 bgCol, float fogDist, float fogDistFar){
-    //GRRLIB_3dMode(0.1, fogDistFar, fov, 0, 0);
 
-    u8 a = bgCol & 0xFF;
-    u8 b = (bgCol>>8) & 0xFF;
-    u8 g = (bgCol>>16) & 0xFF;
-    u8 r = (bgCol>>24) & 0xFF;
-    GXColor fogCol = {r,g,b,a};
-    GX_SetCopyClear(fogCol, GX_MAX_Z24);
-    GX_SetFog(GX_FOG_LIN, fogDist, fogDistFar, fogDist, fogDistFar, fogCol);
+#define camType3D 0
+#define camType2D 1
+
+camState cam = {
+    .type   = camType2D,
+    .fov    = 90.0f,
+    .near   = 0.1f,
+    .far    = 1000.0f,
+    .aspect = 4.0f/3.0f,
+    .x      = 0.0f,
+    .y      = 0.0f,
+    .z      = 0.0f,
+    .pitch  = 0.0f,
+    .yaw    = 0.0f,
+    .roll   = 0.0f,
+    .xto    = 0.0f,
+    .yto    = 0.0f,
+    .zto    = 0.0f,
+    .xup    = 0.0f,
+    .yup    = 1.0f,
+    .zup    = 0.0f,
+    .width  = 640,
+    .height = 480,
+};
+
+void camSet3D(void){
+    //recuperar algunos estados del GPU
+    gpuSetZtestEnable(gpuS.zTest);
+    gpuSetCullmode(gpuS.cullmode);
+    
 }
 
-void updateCamera3D(float xfrom, float yfrom, float zfrom, float xto, float yto, float zto){
+void camSet2D(void) {
+    GX_SetZMode(GX_FALSE, GX_ALWAYS, GX_FALSE);  // solo si alternas con 3D
+    GX_SetCullMode(GX_CULL_NONE);
 
+    guOrtho(cam.proj, 0, cam.height, 0, cam.width, 0, 1000.0f);
+    GX_LoadProjectionMtx(cam.proj, GX_ORTHOGRAPHIC);
+
+    guMtxIdentity(cam.view);
+    guMtxTransApply(cam.view, cam.view, 0, 0, -100.0f);
+    GX_LoadPosMtxImm(cam.view, GX_PNMTX0);
 }
 
-void updateCamera25D(float x, float y, float z){
-
-}
-
-void setCamera2D(){
-    //GRRLIB_2dMode();
-    GX_ClearVtxDesc();
-    GX_SetVtxDesc(GX_VA_POS,  GX_DIRECT);
-    GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-    GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+void camUpdate(void){
 }

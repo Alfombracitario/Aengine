@@ -1,6 +1,11 @@
 #include "engine/fastmath.h"
 #include "math.h"
 
+#define bradToRad(x) ((x) * (2.0f * M_PI / 256.0f))
+#define radToBrad(x) ((x) * (256.0f / (2.0f * M_PI)))
+#define degToRad(x)  ((x) * (M_PI / 180.0f))
+#define radToDeg(x)  ((x) * (180.0f / M_PI))
+
 const float SIN90[90] = {
      0.00000000f,
      0.01745241f,

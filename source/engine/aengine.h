@@ -31,6 +31,7 @@
   #include "engine/gc/build25scene.h"
   #include "engine/gc/vertexbuffer.h"
   #include "engine/gc/oggplayer.h"
+  #include "engine/gc/debug.h"
 #endif
 
 // Exclusivo GC

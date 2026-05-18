@@ -3,12 +3,18 @@ hdma.o: C:/projects/Aengine/source/engine/gc/hdma.c \
  C:/projects/Aengine/source/engine/texture.h \
  C:/projects/Aengine/source/engine/types.h \
  C:/projects/Aengine/source/engine/platform.h \
+ C:/projects/Aengine/source/engine/gc/camera.h \
+ C:/projects/Aengine/source/engine/gc/gc_types.h \
+ C:/devkitPro/libogc/include/ogc/gx.h \
+ C:/devkitPro/libogc/include/gctypes.h \
+ C:/devkitPro/libogc/include/ogc/lwp.h \
+ C:/devkitPro/libogc/include/gcbool.h \
+ C:/devkitPro/libogc/include/ogc/gx_struct.h \
+ C:/devkitPro/libogc/include/ogc/gu.h \
  C:/projects/Aengine/source/engine/gc/render.h \
  C:/devkitPro/libogc/include/gccore.h \
  C:/devkitPro/libogc/include/ogc/dsp.h \
- C:/devkitPro/libogc/include/gctypes.h \
  C:/devkitPro/libogc/include/ogc/aram.h \
- C:/devkitPro/libogc/include/gcbool.h \
  C:/devkitPro/libogc/include/ogc/arqueue.h \
  C:/devkitPro/libogc/include/ogc/lwp_queue.h \
  C:/devkitPro/libogc/include/ogc/aram.h \
@@ -20,14 +26,11 @@ hdma.o: C:/projects/Aengine/source/engine/gc/hdma.c \
  C:/devkitPro/libogc/include/ogc/color.h \
  C:/devkitPro/libogc/include/ogc/consol.h \
  C:/devkitPro/libogc/include/ogc/console.h \
- C:/devkitPro/libogc/include/ogc/gx_struct.h \
  C:/devkitPro/libogc/include/ogc/dvd.h \
  C:/devkitPro/libogc/include/ogc/disc_io.h \
  C:/devkitPro/libogc/include/ogc/exi.h \
  C:/devkitPro/libogc/include/ogc/gu.h \
  C:/devkitPro/libogc/include/ogc/gx.h \
- C:/devkitPro/libogc/include/ogc/lwp.h \
- C:/devkitPro/libogc/include/ogc/gu.h \
  C:/devkitPro/libogc/include/ogc/si.h \
  C:/devkitPro/libogc/include/ogc/gx_struct.h \
  C:/devkitPro/libogc/include/ogc/irq.h \
@@ -63,12 +66,18 @@ C:/projects/Aengine/source/engine/gc/hdma.h:
 C:/projects/Aengine/source/engine/texture.h:
 C:/projects/Aengine/source/engine/types.h:
 C:/projects/Aengine/source/engine/platform.h:
+C:/projects/Aengine/source/engine/gc/camera.h:
+C:/projects/Aengine/source/engine/gc/gc_types.h:
+C:/devkitPro/libogc/include/ogc/gx.h:
+C:/devkitPro/libogc/include/gctypes.h:
+C:/devkitPro/libogc/include/ogc/lwp.h:
+C:/devkitPro/libogc/include/gcbool.h:
+C:/devkitPro/libogc/include/ogc/gx_struct.h:
+C:/devkitPro/libogc/include/ogc/gu.h:
 C:/projects/Aengine/source/engine/gc/render.h:
 C:/devkitPro/libogc/include/gccore.h:
 C:/devkitPro/libogc/include/ogc/dsp.h:
-C:/devkitPro/libogc/include/gctypes.h:
 C:/devkitPro/libogc/include/ogc/aram.h:
-C:/devkitPro/libogc/include/gcbool.h:
 C:/devkitPro/libogc/include/ogc/arqueue.h:
 C:/devkitPro/libogc/include/ogc/lwp_queue.h:
 C:/devkitPro/libogc/include/ogc/aram.h:
@@ -80,14 +89,11 @@ C:/devkitPro/libogc/include/ogc/cast.h:
 C:/devkitPro/libogc/include/ogc/color.h:
 C:/devkitPro/libogc/include/ogc/consol.h:
 C:/devkitPro/libogc/include/ogc/console.h:
-C:/devkitPro/libogc/include/ogc/gx_struct.h:
 C:/devkitPro/libogc/include/ogc/dvd.h:
 C:/devkitPro/libogc/include/ogc/disc_io.h:
 C:/devkitPro/libogc/include/ogc/exi.h:
 C:/devkitPro/libogc/include/ogc/gu.h:
 C:/devkitPro/libogc/include/ogc/gx.h:
-C:/devkitPro/libogc/include/ogc/lwp.h:
-C:/devkitPro/libogc/include/ogc/gu.h:
 C:/devkitPro/libogc/include/ogc/si.h:
 C:/devkitPro/libogc/include/ogc/gx_struct.h:
 C:/devkitPro/libogc/include/ogc/irq.h:

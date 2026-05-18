@@ -5,6 +5,8 @@
 #include <string.h>
 #include <ogc/gu.h>
 #include "engine/gc/video.h"
+#include "engine/gc/render.h"
+#include "engine/gc/camera.h"
 #ifdef HW_RVL
 #include <ogc/conf.h>
 #endif
@@ -14,7 +16,7 @@ void* xfb[2] = { nullptr, nullptr };
 int   currentFb = 0;
 GXRModeObj* rmode = nullptr;
 
-void prepareVideo() {
+void prepareVideo(){
     VIDEO_Init();
     VIDEO_SetBlack(true);
 
@@ -78,15 +80,7 @@ void prepareVideo() {
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
     GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
 
-    // 2D orthographic projection
-    Mtx modelView;
-    guMtxIdentity(modelView);
-    guMtxTransApply(modelView, modelView, 0.0f, 0.0f, -100.0f);
-    GX_LoadPosMtxImm(modelView, GX_PNMTX0);
-
-    Mtx44 projection;
-    guOrtho(projection, 0, rmode->efbHeight, 0, rmode->fbWidth, 0.0f, 1000.0f);
-    GX_LoadProjectionMtx(projection, GX_ORTHOGRAPHIC);
+    camSet2D();
 
     GX_SetViewport(0, 0, rmode->fbWidth, rmode->efbHeight, 0.0f, 1.0f);
     GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
@@ -120,7 +114,7 @@ void exitVideo() {
     platformRender();
     platformRender();
 
-    GX_DrawDone();    // <-- critical, must complete before abort
+    GX_DrawDone();
     GX_AbortFrame();
 
     if (xfb[0]) { free(MEM_K1_TO_K0(xfb[0])); xfb[0] = nullptr; }

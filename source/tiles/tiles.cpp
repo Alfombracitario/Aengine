@@ -13,6 +13,7 @@ void solid(int tx, int ty, cord* px, cord* py) {
 void empty(int tx, int ty, cord* px, cord* py) {
     return;
 }
+
 static void drawNothing(int x, int y ){
     return;
 }

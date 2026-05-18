@@ -82,8 +82,8 @@ extern stick_t joystickL[platformTotalControls];
 #define keyL    (1<<8)   // L digital / bumper izq
 #define keyR    (1<<9)   // R digital / bumper der
 
-#define keyC    (1<<8)   // Versión Nunchuck
-#define keyZ    (1<<9)
+#define keyC    keyL   // Versión Nunchuck
+#define keyZ    keyR
 
 #define keyZL   (1<<10)  // Trigger extra
 #define keyZR   (1<<11)

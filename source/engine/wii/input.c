@@ -7,9 +7,6 @@
 #include "engine/input.h"
 #include "engine/gc/render.h"//para la resolución
 
-extern u32 surfaceHeight;
-extern u32 surfaceWidth;
-
 u32 buttonsDown[platformTotalControls] = {0,0,0,0};
 u32 buttonsHeld[platformTotalControls] = {0,0,0,0};
 u32 buttonsUp[platformTotalControls]   = {0,0,0,0};
@@ -303,11 +300,11 @@ void inputUpdate() {
     if(mouse[4].y < 0){
             mouse[4].y  = 0;
     }
-    if(mouse[4].x > surfaceWidth){
-            mouse[4].x = surfaceWidth;
+    if(mouse[4].x > gpuS.viewWidth){
+            mouse[4].x = gpuS.viewWidth;
     }
-    if(mouse[4].y > surfaceHeight){
-            mouse[4].y = surfaceHeight;
+    if(mouse[4].y > gpuS.viewHeight){
+            mouse[4].y = gpuS.viewHeight;
     }
     }
 

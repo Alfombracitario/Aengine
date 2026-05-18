@@ -58,7 +58,9 @@ camera.o: C:/projects/Aengine/source/engine/gc/camera.c \
  C:/projects/Aengine/source/engine/texture.h \
  C:/projects/Aengine/source/engine/types.h \
  C:/projects/Aengine/source/engine/platform.h \
- C:/projects/Aengine/source/engine/gc/camera.h
+ C:/projects/Aengine/source/engine/gc/camera.h \
+ C:/projects/Aengine/source/engine/gc/gc_types.h \
+ C:/devkitPro/libogc/include/ogc/gx.h
 C:/projects/Aengine/source/engine/gc/render.h:
 C:/devkitPro/libogc/include/gccore.h:
 C:/devkitPro/libogc/include/ogc/dsp.h:
@@ -119,3 +121,5 @@ C:/projects/Aengine/source/engine/texture.h:
 C:/projects/Aengine/source/engine/types.h:
 C:/projects/Aengine/source/engine/platform.h:
 C:/projects/Aengine/source/engine/gc/camera.h:
+C:/projects/Aengine/source/engine/gc/gc_types.h:
+C:/devkitPro/libogc/include/ogc/gx.h:

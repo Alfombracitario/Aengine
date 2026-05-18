@@ -1,0 +1,109 @@
+.SUFFIXES:
+
+ifeq ($(strip $(DEVKITPRO)),)
+$(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>/devkitpro")
+endif
+
+TOPDIR ?= $(CURDIR)
+
+include $(DEVKITPRO)/wut/share/wut_rules
+
+TARGET		:=	boot
+BUILD		:=	build
+SOURCES		:=	source source/engine/wiiu source/engine source/scenes source/objects source/tiles source/effects source/engine/lib/png/
+DATA		:=	assets assets/audio assets/graphics
+INCLUDES	:=	source
+
+CFLAGS		=	-g -O2 -Wall $(MACHDEP) $(INCLUDE)
+CFLAGS		+=	-D__WIIU__ -D__WUT__
+CFLAGS		+=	-DCURRENT_PLATFORM=PLATFORM_$(PLATFORM)
+CXXFLAGS	=	$(CFLAGS)
+ASFLAGS		=	-g $(ARCH)
+LDFLAGS		=	-g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $@).map
+
+LIBS		:=	-lwut
+
+LIBDIRS		:=	$(PORTLIBS) $(WUT_ROOT)
+
+ifneq ($(BUILD),$(notdir $(CURDIR)))
+
+export OUTPUT	:=	$(CURDIR)/dist/wiiu/$(TARGET)
+export TOPDIR	:=	$(CURDIR)
+export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
+					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
+export DEPSDIR	:=	$(CURDIR)/$(BUILD)
+
+CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
+BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
+
+ifeq ($(strip $(CPPFILES)),)
+	export LD	:=	$(CC)
+else
+	export LD	:=	$(CXX)
+endif
+
+export OFILES_BIN		:=	$(addsuffix .o,$(BINFILES))
+export OFILES_SOURCES	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
+export OFILES			:=	$(OFILES_BIN) $(OFILES_SOURCES)
+export HFILES_BIN		:=	$(addsuffix .h,$(subst .,_,$(BINFILES)))
+
+export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
+					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+					-I$(CURDIR)/$(BUILD)
+
+export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
+
+.PHONY: $(BUILD) clean distclean
+
+$(BUILD):
+	@[ -d $@ ] || mkdir -p $@
+	@mkdir -p $(CURDIR)/dist/wiiu
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile.WIIU PLATFORM=$(PLATFORM)
+
+clean:
+	@echo clean ...
+	@rm -fr $(BUILD)
+
+distclean:
+	@echo distclean ...
+	@rm -f $(CURDIR)/dist/wiiu/$(TARGET).elf
+	@rm -f $(CURDIR)/dist/wiiu/$(TARGET).rpx
+	@rm -f $(CURDIR)/dist/wiiu/$(TARGET).wuhb
+
+else
+
+DEPENDS	:=	$(OFILES:.o=.d)
+
+all: $(OUTPUT).wuhb
+
+$(OUTPUT).wuhb	:	$(OUTPUT).rpx
+$(OUTPUT).rpx	:	$(OUTPUT).elf
+$(OUTPUT).elf	:	$(OFILES)
+
+$(OFILES_SOURCES) : $(HFILES_BIN)
+
+%.jpg.o	:	%.jpg
+	@echo $(notdir $<)
+	@$(bin2o)
+
+%.png.o	:	%.png
+	@echo $(notdir $<)
+	@$(bin2o)
+
+%.ogg.o	%_ogg.h :	%.ogg
+	@echo $(notdir $<)
+	@$(bin2o)
+
+%.bin.o	:	%.bin
+	@echo $(notdir $<)
+	@$(bin2o)
+
+%.room.o :	%.room
+	@echo $(notdir $<)
+	@$(bin2o)
+
+-include $(DEPENDS)
+
+endif

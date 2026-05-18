@@ -30,14 +30,14 @@ void finishFrame(){
             if (mouse[i].valid &&
                 mouse[i].x > 0 && mouse[i].x < 639 &&
                 mouse[i].y > 0 && mouse[i].y < 479) {
-                draw_sprite(gfxCursor,i,mouse[i].x,mouse[i].y);
+                drawSprite(gfxCursor,i,mouse[i].x,mouse[i].y);
             }
         }
     //dibujar mouse
     if (mouse[4].valid &&
         mouse[4].x > 0 && mouse[4].x < 639 &&
         mouse[4].y > 0 && mouse[4].y < 479) {
-        draw_texture(gfxMouse,mouse[4].x,mouse[4].y);
+        drawTexture(gfxMouse,mouse[4].x,mouse[4].y);
     }
     platformRender();
     invalidateTexCache();
