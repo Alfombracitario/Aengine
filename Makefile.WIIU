@@ -10,7 +10,19 @@ include $(DEVKITPRO)/wut/share/wut_rules
 
 TARGET		:=	boot
 BUILD		:=	build
-SOURCES		:=	source source/engine/wiiu source/engine source/scenes source/objects source/tiles source/effects source/engine/lib/png/
+SOURCES		:=	source	\
+				source/engine/wiiu	\
+				source/engine	\
+				source/engine/general	\
+				source/engine/lib/png	\
+				source/scenes	\
+				source/objects	\
+				source/tiles	\
+				source/effects	\
+				source/scripts	\
+				source/platform/wiiu	\
+
+
 DATA		:=	assets assets/audio assets/graphics
 INCLUDES	:=	source
 
@@ -24,6 +36,10 @@ LDFLAGS		=	-g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $@).map
 LIBS		:=	-lwut
 
 LIBDIRS		:=	$(PORTLIBS) $(WUT_ROOT)
+
+ifeq ($(DEBUG),1)
+    CFLAGS += -DDEBUG_MODE
+endif
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 
@@ -104,6 +120,11 @@ $(OFILES_SOURCES) : $(HFILES_BIN)
 	@echo $(notdir $<)
 	@$(bin2o)
 
+%.acs.o %_acs.h : %.acs
+	@echo $(notdir $<)
+	@$(bin2o)
+	
+	
 -include $(DEPENDS)
 
 endif

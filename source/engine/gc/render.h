@@ -143,25 +143,6 @@ void drawRectangleColour(f32 x, f32 y, f32 w, f32 h, u32 colorTopLeft, u32 color
 void viewportResize(u16 width, u16 height);
 void viewportMove(u16 x, u16 y);
 
-//Macros
-#define cBlack   0x000000FF
-#define cMarron  0x800000FF
-#define cGreen   0x008000FF
-#define cOlive   0x808000FF
-#define cNavy    0x000080FF
-#define cPurple  0x800080FF
-#define cTeal    0x008080FF
-#define cGray    0x808080FF
-#define cSilver  0xC0C0C0FF
-#define cRed     0xFF0000FF
-#define cLime    0x00FF00FF
-#define cYellow  0xFFFF00FF
-#define cOrange  0xFF7F00FF
-#define cBlue    0x0000FFFF
-#define cFuchsia 0xFF00FFFF
-#define cAqua    0x00FFFFFF
-#define cWhite   0xFFFFFFFF
-
 //
 #define cmpFuncNever        GX_NEVER
 #define cmpFuncLess         GX_LESS
@@ -176,10 +157,86 @@ void viewportMove(u16 x, u16 y);
 #define cullClockwise   GX_CULL_BACK
 #define cullCounterCW   GX_CULL_FRONT
 
+#define cullBack        GX_CULL_BACK
+#define cullFront       GX_CULL_FRONT
+
 #define fogLinear   GX_FOG_PERSP_LIN
 #define fogExp      GX_FOG_PERSP_EXP
 #define fogExp2     GX_FOG_PERSP_EXP2
 #define fogRevExp   GX_FOG_PERSP_REVEXP
 #define fogRevExp2  GX_FOG_PERSP_REVEXP2
+
+//incluso más macros
+
+//macros de vertices genéricas
+#define vertexBegin(count)             GX_Begin(GX_QUADS, GX_VTXFMT0, count)
+#define vertexEnd()                    GX_End()
+
+#define vertexPos2(x, y)               GX_Position2f32(x, y)
+#define vertexPos3(x, y, z)            GX_Position3f32(x, y, z)
+
+#define vertexColor(r, g, b, a)        GX_Color4u8(r, g, b, a)
+#define vertexColor1(clr)              GX_Color1u32(clr)
+
+#define vertexNormal(x, y, z)          GX_Normal3f32(x, y, z)
+
+#define vertexUv(s, t)                 GX_TexCoord2f32(s, t)
+#define vertexUv1(s)                   GX_TexCoord1f32(s)
+
+// ─── POSITION ─────────────────────────────────────────────────────────────────
+
+#define vertexPos2f32(x, y)            GX_Position2f32(x, y)
+#define vertexPos2s16(x, y)            GX_Position2s16(x, y)
+#define vertexPos2u16(x, y)            GX_Position2u16(x, y)
+#define vertexPos2s8(x, y)             GX_Position2s8(x, y)
+#define vertexPos2u8(x, y)             GX_Position2u8(x, y)
+
+#define vertexPos3f32(x, y, z)         GX_Position3f32(x, y, z)
+#define vertexPos3s16(x, y, z)         GX_Position3s16(x, y, z)
+#define vertexPos3u16(x, y, z)         GX_Position3u16(x, y, z)
+#define vertexPos3s8(x, y, z)          GX_Position3s8(x, y, z)
+#define vertexPos3u8(x, y, z)          GX_Position3u8(x, y, z)
+
+#define vertexPos1x8(index)            GX_Position1x8(index)
+#define vertexPos1x16(index)           GX_Position1x16(index)
+
+// ─── COLOR ────────────────────────────────────────────────────────────────────
+
+#define vertexColor4u8(r, g, b, a)     GX_Color4u8(r, g, b, a)
+#define vertexColor3u8(r, g, b)        GX_Color3u8(r, g, b)
+#define vertexColor3f32(r, g, b)       GX_Color3f32(r, g, b)
+#define vertexColor1u32(clr)           GX_Color1u32(clr)
+#define vertexColor1u16(clr)           GX_Color1u16(clr)
+#define vertexColor1x8(index)          GX_Color1x8(index)
+#define vertexColor1x16(index)         GX_Color1x16(index)
+
+// ─── NORMAL ───────────────────────────────────────────────────────────────────
+
+#define vertexNormalf32(x, y, z)       GX_Normal3f32(x, y, z)
+#define vertexNormals16(x, y, z)       GX_Normal3s16(x, y, z)
+#define vertexNormals8(x, y, z)        GX_Normal3s8(x, y, z)
+#define vertexNormal1x8(index)         GX_Normal1x8(index)
+#define vertexNormal1x16(index)        GX_Normal1x16(index)
+
+// ─── UV ───────────────────────────────────────────────────────────────────────
+
+#define vertexUv2f32(s, t)             GX_TexCoord2f32(s, t)
+#define vertexUv2s16(s, t)             GX_TexCoord2s16(s, t)
+#define vertexUv2u16(s, t)             GX_TexCoord2u16(s, t)
+#define vertexUv2s8(s, t)              GX_TexCoord2s8(s, t)
+#define vertexUv2u8(s, t)              GX_TexCoord2u8(s, t)
+
+#define vertexUv1f32(s)                GX_TexCoord1f32(s)
+#define vertexUv1s16(s)                GX_TexCoord1s16(s)
+#define vertexUv1u16(s)                GX_TexCoord1u16(s)
+#define vertexUv1s8(s)                 GX_TexCoord1s8(s)
+#define vertexUv1u8(s)                 GX_TexCoord1u8(s)
+
+#define vertexUv1x8(index)             GX_TexCoord1x8(index)
+#define vertexUv1x16(index)            GX_TexCoord1x16(index)
+
+// ─── MATRIX ───────────────────────────────────────────────────────────────────
+
+#define vertexMatrix(index)            GX_MatrixIndex1x8(index)
 
 #endif

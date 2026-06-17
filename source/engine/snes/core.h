@@ -1,9 +1,6 @@
-#pragma once
 #ifndef CORE_H
 #define CORE_H
-
-// SNES platform capabilities header
-// All values are 0 if the platform lacks the feature.
+#include "engine/aengine.h"
 
 // Input
 #define platformTotalControls   2       // Number of controllers that can be connected simultaneously
@@ -70,6 +67,10 @@
 
 // Network
 #define platformHasWifi         0       // Platform has built-in WiFi
+
+// Colors
+#define platformColorFormat     555
+#define platformColorOrder      colorOrderBGR
 
 void platformInit();
 void platformExit();

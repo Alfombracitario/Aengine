@@ -23,14 +23,14 @@ Texture* gfxMouse;
 int main(){
     platformInit(); 
 
-    gfxFont  = textureLoad(gfxfont_png);
+    gfxFont  = textureLoad(gfxfont_png,FMT_PNG);
 
     #if platformHasUSBmouse
-        gfxMouse = textureLoad(gfxmouse_png);
+        gfxMouse = textureLoad(gfxmouse_png,FMT_PNG);
     #endif
 
     #if platformHasPointer
-        gfxCursor = textureLoad(gfxcursor_png);
+        gfxCursor = textureLoad(gfxcursor_png,FMT_PNG);
         initTiles(gfxCursor, 2, 2);
     #endif
     

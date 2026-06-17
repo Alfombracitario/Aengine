@@ -1,8 +1,9 @@
 #ifndef CORE_H
 #define CORE_H
+#include "engine/aengine.h"
 
 // Input
-#define platformTotalControls   3       // Number of controllers that can be connected simultaneously
+#define platformTotalControls   4       // Number of controllers that can be connected simultaneously
 #define platformHasPointer      0       // Controllers have a pointing method
 #define platformHasTouch        0       // Platform has a touchscreen
 #define platformHasUSBmouse     0       // A mouse can be connected via USB
@@ -66,6 +67,10 @@
 
 // Network
 #define platformHasWifi         0       // Platform has built-in WiFi
+
+// Colors
+#define platformColorFormat     8888
+#define platformColorOrder      colorOrderRGBA
 
 void platformInit();
 void platformExit();

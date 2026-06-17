@@ -3,6 +3,9 @@
 #define AENGINE_TYPES_H
 #include "engine/platform.h"
 
+#define aspect4_3 (4.0f/3.0f)
+#define aspect16_9 (16.0f/9.0f)
+
 #if CURRENT_PLATFORM == PLATFORM_SNES
 #include <snes.h>
 #else

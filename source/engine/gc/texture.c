@@ -1,9 +1,14 @@
 #include "engine/lib/png/lodepng.h"
+#include "engine/general/acs.h"
 #include <gccore.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "engine/texture.h"
 #include "malloc.h"
 #include "engine/gc/gc_types.h"
+#include "engine/gc/debug.h"
+#include "engine/gc/render.h"
+#include "engine/wii/core.h"
 
 static void convertToGXRGBA8(const u8* src, u8* dst, u32 width, u32 height) {
     for (u32 y = 0; y < height; y += 4) {
@@ -23,14 +28,50 @@ static void convertToGXRGBA8(const u8* src, u8* dst, u32 width, u32 height) {
         }
     }
 }
-
+static void convertToGXRGB565(const u8* src, u8* dst_raw, u32 width, u32 height) {
+    u16* dst = (u16*)dst_raw;
+    for (u32 y = 0; y < height; y += 4) {
+        for (u32 x = 0; x < width; x += 4) {
+            for (u32 ty = 0; ty < 4; ty++)
+                for (u32 tx = 0; tx < 4; tx++) {
+                    u32 i = ((y + ty) * width + (x + tx)) * 4;
+                    u8 r = src[i + 0];
+                    u8 g = src[i + 1];
+                    u8 b = src[i + 2];
+                    *dst++ = ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);
+                }
+        }
+    }
+}
+// src: índices lineales 1 byte por pixel
+static void convertToGXCI8(const u8* src, u8* dst, u32 width, u32 height) {
+    for (u32 y = 0; y < height; y += 4) {
+        for (u32 x = 0; x < width; x += 8) {
+            for (u32 ty = 0; ty < 4; ty++)
+                for (u32 tx = 0; tx < 8; tx++)
+                    *dst++ = src[(y + ty) * width + (x + tx)];
+        }
+    }
+}
+// src: índices lineales 1 byte por pixel (4-bit cada uno, empacados en el conversor)
+static void convertToGXCI4(const u8* src, u8* dst, u32 width, u32 height) {
+    for (u32 y = 0; y < height; y += 8) {
+        for (u32 x = 0; x < width; x += 8) {
+            for (u32 ty = 0; ty < 8; ty++)
+                for (u32 tx = 0; tx < 8; tx += 2) {
+                    u8 a = src[(y + ty) * width + (x + tx + 0)] & 0xF;
+                    u8 b = src[(y + ty) * width + (x + tx + 1)] & 0xF;
+                    *dst++ = (a << 4) | b;
+                }
+        }
+    }
+}
 static Texture textureFromRGBA(const u8* rawPixels, u32 w, u32 h) {
     Texture tex = {0};
 
     u32 dataSize  = w * h * 4;
     void* gxPixels = memalign(32, dataSize);
-    if (!gxPixels) return tex; // platformHandle queda nullptr
-
+    aAssert(gxPixels,"Texture convert error: gxPixels not valid");
     convertToGXRGBA8(rawPixels, (u8*)gxPixels, w, h);
     DCFlushRange(gxPixels, dataSize);
 
@@ -47,28 +88,64 @@ static Texture textureFromRGBA(const u8* rawPixels, u32 w, u32 h) {
     tex.tilesX          = 1;
     tex.tilesY          = 1;
 
-
     return tex;
 }
 
-Texture* _textureLoad(const u8* buffer, u32 size) {
-    u8* rawPixels = NULL;
-    unsigned int w, h;
-    if (lodepng_decode32(&rawPixels, &w, &h, buffer, size)) return NULL;
+Texture* _textureLoad(const u8* buffer, u32 size, const u32 format) {
     Texture* tex = malloc(sizeof(Texture));
-    *tex = textureFromRGBA(rawPixels, w, h);
-    free(rawPixels);
+    
+    if(!tex) return NULL;
+
+    if(format == FMT_PNG){
+        u8* rawPixels = NULL;
+        unsigned int w, h;
+        if(lodepng_decode32(&rawPixels, &w, &h, buffer, size)){
+            free(tex); return NULL;
+        }
+        *tex = textureFromRGBA(rawPixels, w, h);
+        free(rawPixels);
+    }
+    else{
+        u32* rawPixels = NULL;
+        u32* pal = NULL;
+        int cAmount, width, height, f;
+
+        readACSheader(buffer,&cAmount,&width,&height,&f);
+        rawPixels = (u32*)malloc(width * height * sizeof(u32));
+        if(cAmount > 0){
+            pal = (u32*)malloc((cAmount+1) * sizeof(u32));
+        }
+        aAssert(rawPixels, "rawPixels is invalid!");
+
+        int out = importACS(buffer, rawPixels, pal, tex);
+        aAssert(out != -1,"Not valid ACS file");
+        int x, y;
+        //transformamos al formato solicitado.
+                *tex = textureFromRGBA((const u8*)rawPixels, tex->width, tex->height);
+
+        free(rawPixels);
+        free(pal);
+    }
+
     return tex;
 }
 
-Texture textureLoadFile(const char* path) {
-    u8* rawPixels = NULL;
-    unsigned int w, h;
-    if (lodepng_decode32_file(&rawPixels, &w, &h, path)) {
-        Texture empty = {0}; return empty;
-    }
-    Texture tex = textureFromRGBA(rawPixels, w, h);
-    free(rawPixels);
+Texture* textureLoadFile(const char* path, const u32 format){
+    FILE* f = fopen(path, "rb");
+    if(!f) return NULL;
+
+    fseek(f, 0, SEEK_END);
+    size_t size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    u8* data = malloc(size);
+    if(!data){ fclose(f); return NULL; }
+
+    fread(data, 1, size, f);
+    fclose(f);
+
+    Texture* tex = _textureLoad(data, size, format);
+    free(data);
     return tex;
 }
 

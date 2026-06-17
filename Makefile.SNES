@@ -20,6 +20,10 @@ include $(CURDIR)/snes_rules
 # ─── Flags ───────────────────────────────────────────────────────────────────
 CFLAGS += -Wall -DCURRENT_PLATFORM=PLATFORM_SNES
 
+ifeq ($(DEBUG),1)
+    CFLAGS += -DDEBUG_MODE
+endif
+
 # ─── Targets ─────────────────────────────────────────────────────────────────
 .PHONY: all clean distclean bitmaps
 

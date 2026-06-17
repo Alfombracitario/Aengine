@@ -147,4 +147,14 @@ float fastCos(float angle) {
     return fastSin(angle + 90.0f);
 }
 
-//TODO: añadir versión Fixed
+int fastIntLog2(unsigned int x) {
+    if (x == 0) {
+        return -1; 
+    }
+    int log = 0;
+    while (x > 1) {
+        x >>= 1;
+        log++;
+    }
+    return log;
+}

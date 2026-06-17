@@ -40,12 +40,23 @@ extern u16 buttonsUp[platformTotalControls];
 
 #define keyHome (KEY_START|KEY_SELECT)
 #else
+
+typedef struct { u32 src; u32 dst; } BtnMap;
+
+inline u32 remapBits(u32 raw, const BtnMap* map, int len) {
+    u32 out = 0;
+    for (int i = 0; i < len; i++)
+        if (raw & map[i].src) out |= map[i].dst;
+    return out;
+}
+
 extern u32 buttonsDown[platformTotalControls];
 extern u32 buttonsHeld[platformTotalControls];
 extern u32 buttonsUp[platformTotalControls];
 
 typedef struct {
     int x, y;
+    int rx, ry;
     int prevX, prevY;
     bool valid;
 } mouse_t;
@@ -189,6 +200,11 @@ void inputSetVerticalMode();
 #define vk_scrolllock 145
 
 //teclado físico
-bool keyboardCheck(int vk);
+#if platformHasUSBkeyboard
+    bool keyboardCheck(int vk);
+    bool keyboardCheckPressed(int vk);
+    bool keyboardCheckReleased(int vk);
+    bool keyboardCheckAny();
+#endif
 
 #endif

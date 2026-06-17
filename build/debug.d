@@ -1,4 +1,5 @@
 debug.o: C:/projects/Aengine/source/engine/gc/debug.c \
+ C:/projects/Aengine/source/engine/gc/debug.h \
  C:/devkitPro/libogc/include/gccore.h \
  C:/devkitPro/libogc/include/ogc/dsp.h \
  C:/devkitPro/libogc/include/gctypes.h \
@@ -57,10 +58,10 @@ debug.o: C:/projects/Aengine/source/engine/gc/debug.c \
  C:/projects/Aengine/source/engine/aengine.h \
  C:/projects/Aengine/source/engine/platform.h \
  C:/projects/Aengine/source/engine/fastmath.h \
- C:/projects/Aengine/source/engine/scenemanager.h \
- C:/projects/Aengine/source/engine/misc.h \
  C:/projects/Aengine/source/engine/types.h \
+ C:/projects/Aengine/source/engine/scenemanager.h \
  C:/projects/Aengine/source/engine/texture.h \
+ C:/projects/Aengine/source/engine/general/color.h \
  C:/devkitPro/libogc/include/asndlib.h \
  C:/projects/Aengine/source/engine/gc/video.h \
  C:/devkitPro/libogc/include/ogc/gx.h \
@@ -68,11 +69,8 @@ debug.o: C:/projects/Aengine/source/engine/gc/debug.c \
  C:/projects/Aengine/source/engine/gc/gc_types.h \
  C:/projects/Aengine/source/engine/gc/render.h \
  C:/projects/Aengine/source/engine/gc/hdma.h \
- C:/projects/Aengine/source/engine/gc/build25scene.h \
- C:/projects/Aengine/source/tiles/tiles.h \
- C:/projects/Aengine/source/engine/gc/vertexbuffer.h \
  C:/projects/Aengine/source/engine/gc/oggplayer.h \
- C:/projects/Aengine/source/engine/gc/debug.h \
+ C:/projects/Aengine/source/engine/lib/wupc/include/wupc/wupc.h \
  C:/devkitPro/libogc/include/wiiuse/wpad.h \
  C:/devkitPro/libogc/include/wiiuse/wiiuse.h \
  C:/devkitPro/libogc/include/bte/bte.h \
@@ -81,7 +79,10 @@ debug.o: C:/projects/Aengine/source/engine/gc/debug.c \
  C:/devkitPro/libogc/include/wiikeyboard/keyboard.h \
  C:/devkitPro/libogc/include/wiikeyboard/wsksymdef.h \
  C:/projects/Aengine/source/engine/wii/core.h \
- C:/projects/Aengine/source/engine/input.h
+ C:/projects/Aengine/source/engine/input.h \
+ C:/devkitPro/libogc/include/ogc/lwp_watchdog.h \
+ C:/devkitPro/libogc/include/ogc/lwp_queue.h
+C:/projects/Aengine/source/engine/gc/debug.h:
 C:/devkitPro/libogc/include/gccore.h:
 C:/devkitPro/libogc/include/ogc/dsp.h:
 C:/devkitPro/libogc/include/gctypes.h:
@@ -140,10 +141,10 @@ C:/devkitPro/libogc/include/ogc/wiilaunch.h:
 C:/projects/Aengine/source/engine/aengine.h:
 C:/projects/Aengine/source/engine/platform.h:
 C:/projects/Aengine/source/engine/fastmath.h:
-C:/projects/Aengine/source/engine/scenemanager.h:
-C:/projects/Aengine/source/engine/misc.h:
 C:/projects/Aengine/source/engine/types.h:
+C:/projects/Aengine/source/engine/scenemanager.h:
 C:/projects/Aengine/source/engine/texture.h:
+C:/projects/Aengine/source/engine/general/color.h:
 C:/devkitPro/libogc/include/asndlib.h:
 C:/projects/Aengine/source/engine/gc/video.h:
 C:/devkitPro/libogc/include/ogc/gx.h:
@@ -151,11 +152,8 @@ C:/projects/Aengine/source/engine/gc/camera.h:
 C:/projects/Aengine/source/engine/gc/gc_types.h:
 C:/projects/Aengine/source/engine/gc/render.h:
 C:/projects/Aengine/source/engine/gc/hdma.h:
-C:/projects/Aengine/source/engine/gc/build25scene.h:
-C:/projects/Aengine/source/tiles/tiles.h:
-C:/projects/Aengine/source/engine/gc/vertexbuffer.h:
 C:/projects/Aengine/source/engine/gc/oggplayer.h:
-C:/projects/Aengine/source/engine/gc/debug.h:
+C:/projects/Aengine/source/engine/lib/wupc/include/wupc/wupc.h:
 C:/devkitPro/libogc/include/wiiuse/wpad.h:
 C:/devkitPro/libogc/include/wiiuse/wiiuse.h:
 C:/devkitPro/libogc/include/bte/bte.h:
@@ -165,3 +163,5 @@ C:/devkitPro/libogc/include/wiikeyboard/keyboard.h:
 C:/devkitPro/libogc/include/wiikeyboard/wsksymdef.h:
 C:/projects/Aengine/source/engine/wii/core.h:
 C:/projects/Aengine/source/engine/input.h:
+C:/devkitPro/libogc/include/ogc/lwp_watchdog.h:
+C:/devkitPro/libogc/include/ogc/lwp_queue.h:

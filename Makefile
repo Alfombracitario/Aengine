@@ -1,6 +1,7 @@
 .SUFFIXES:
 
-PLATFORM ?= WII 
+PLATFORM ?= WII
+DEBUG    ?= 0
 
 .PHONY: all clean run
 
@@ -31,3 +32,9 @@ snes:
 
 snes-clean:
 	@$(MAKE) -f Makefile.SNES PLATFORM=SNES clean
+
+gba:
+	@$(MAKE) -f Makefile.GBA PLATFORM=GBA
+
+gba-clean:
+	@$(MAKE) -f Makefile.GBA PLATFORM=GBA clean

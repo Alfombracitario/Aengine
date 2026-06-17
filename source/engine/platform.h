@@ -2,9 +2,9 @@
 #define PLATFORM_UNKNOWN    0
 
 // Nintendo
-#define PLATFORM_SNES       17
-#define PLATFORM_GBA        18
-#define PLATFORM_DS         19
+#define PLATFORM_SNES       17  
+#define PLATFORM_GBA        18  
+#define PLATFORM_DS         19  
 #define PLATFORM_GC         1   // IBM Gekko + Flipper GPU
 #define PLATFORM_WII        2   // IBM Broadway + Hollywood GPU
 #define PLATFORM_WIIU       3   // IBM Espresso + Latte GPU
@@ -39,3 +39,12 @@
 #if CURRENT_PLATFORM == PLATFORM_UNKNOWN
   #error "CURRENT_PLATFORM is PLATFORM_UNKNOWN. no target selected."
 #endif
+
+
+//Puede que no sea un lugar muy lógico para definirlo pero el orden de compilación me obligó a poner esto aquí.
+//si esto se expande mucho haré un misc.h
+#define colorOrderARGB  1
+#define colorOrderBGR   2
+#define colorOrderRGB   3
+#define colorOrderBGRA  4
+#define colorOrderABGR  5

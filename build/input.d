@@ -62,6 +62,7 @@ input.o: C:/projects/Aengine/source/engine/wii/input.c \
  C:/devkitPro/libogc/include/ogc/system.h \
  C:/devkitPro/libogc/include/ogc/wiilaunch.h \
  C:/devkitPro/libogc/include/bte/bd_addr.h \
+ C:/projects/Aengine/source/engine/lib/wupc/include/wupc/wupc.h \
  C:/projects/Aengine/source/engine/wii/core.h \
  C:/projects/Aengine/source/engine/input.h \
  C:/projects/Aengine/source/engine/platform.h \
@@ -131,6 +132,7 @@ C:/devkitPro/libogc/include/ogc/mutex.h:
 C:/devkitPro/libogc/include/ogc/system.h:
 C:/devkitPro/libogc/include/ogc/wiilaunch.h:
 C:/devkitPro/libogc/include/bte/bd_addr.h:
+C:/projects/Aengine/source/engine/lib/wupc/include/wupc/wupc.h:
 C:/projects/Aengine/source/engine/wii/core.h:
 C:/projects/Aengine/source/engine/input.h:
 C:/projects/Aengine/source/engine/platform.h:

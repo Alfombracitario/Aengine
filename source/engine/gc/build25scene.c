@@ -1,4 +1,5 @@
-#include "engine/gc/build25scene.h"
+/*
+//#include "engine/gc/build25scene.h"
 #include "engine/texture.h"
 #include <gccore.h>
 
@@ -169,3 +170,4 @@ void computeNeighbors(const uint8_t *tiles, const uint8_t *lut,
         neighbors[i] = mask;
     }
 }
+*/

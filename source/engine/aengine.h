@@ -14,10 +14,10 @@
 
 #include "engine/fastmath.h"
 #include "engine/scenemanager.h"
-#include "engine/misc.h"
 #include "engine/texture.h"
 
 // ── Código específico por plataforma ──────────────────────────────────────────
+#include "engine/general/color.h"
 
 // Común a GC y Wii
 #if CURRENT_PLATFORM == PLATFORM_WII || CURRENT_PLATFORM == PLATFORM_GC
@@ -28,8 +28,7 @@
   #include "engine/gc/camera.h"
   #include "engine/gc/render.h"
   #include "engine/gc/hdma.h"
-  #include "engine/gc/build25scene.h"
-  #include "engine/gc/vertexbuffer.h"
+  //#include "engine/gc/build25scene.h"
   #include "engine/gc/oggplayer.h"
   #include "engine/gc/debug.h"
 #endif
@@ -42,6 +41,7 @@
 // Exclusivo Wii
 #if CURRENT_PLATFORM == PLATFORM_WII
   //librerías
+  #include <wupc/wupc.h>
   #include <wiiuse/wpad.h>
   #include <ogc/usbmouse.h>
   #include <wiikeyboard/keyboard.h>
@@ -52,6 +52,17 @@
 #if CURRENT_PLATFORM == PLATFORM_SNES
   #include <snes.h>
   #include "engine/snes/core.h"
+#endif
+
+//Exclusivo de GBA
+#if CURRENT_PLATFORM == PLATFORM_GBA
+  #include <gba_console.h>
+  #include <gba_video.h>
+  #include <gba_interrupt.h>
+  #include <gba_systemcalls.h>
+  #include <gba_input.h>
+  #include "engine/gba/core.h"
+  #include "engine/gba/debug.h"
 #endif
 
 //Includes que se hacen después y son globales.

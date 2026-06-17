@@ -7,6 +7,8 @@
 #include "engine/gc/video.h"
 #include "engine/gc/render.h"
 #include "engine/gc/camera.h"
+#include "engine/types.h"
+
 #ifdef HW_RVL
 #include <ogc/conf.h>
 #endif
@@ -24,10 +26,14 @@ void prepareVideo(){
 
     // Wii-specific aspect ratio correction
 #if defined(HW_RVL)
-    if (CONF_GetAspectRatio() == CONF_ASPECT_16_9)
+    if (CONF_GetAspectRatio() == CONF_ASPECT_16_9){
         rmode->viWidth = 678;
-    else
+        cam.aspect = aspect16_9;
+        cam.width = 854;
+    }else{
         rmode->viWidth = 672;
+        cam.aspect = aspect4_3;
+    }
     rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - rmode->viWidth) / 2;
 #endif
 

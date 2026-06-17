@@ -8,7 +8,17 @@ include $(DEVKITPPC)/gamecube_rules
 
 TARGET		:=	boot
 BUILD		:=	build
-SOURCES		:=	source source/engine/gc source/engine source/scenes source/objects source/tiles source/effects source/engine/lib/png/
+SOURCES		:=	source	\
+				source/engine/gc	\
+				source/engine	\
+				source/engine/general	\
+				source/engine/lib/png	\
+				source/scenes	\
+				source/objects	\
+				source/tiles	\
+				source/effects	\
+				source/scripts	\
+				source/platform/gc
 DATA		:=	assets assets/audio assets/graphics
 TEXTURES	:=	textures
 INCLUDES	:=	source
@@ -19,9 +29,9 @@ CXXFLAGS	=	$(CFLAGS)
 LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
 LIBS := -lfat
-LIBS	+= -lm
-LIBS	+= -lvorbisidec -logg -lasnd
-LIBS	+= -logc
+LIBS += -lvorbisidec -logg -lasnd
+LIBS += -logc
+LIBS += -lm
 
 LIBDIRS	:= $(PORTLIBS)
 
@@ -118,6 +128,11 @@ $(OFILES_SOURCES) : $(HFILES)
 	@echo $(notdir $<)
 	$(bin2o)
 
+%.acs.o %_acs.h : %.acs
+	@echo $(notdir $<)
+	@$(bin2o)
+	
+	
 -include $(DEPENDS)
 
 endif

@@ -1,5 +1,9 @@
 texture.o: C:/projects/Aengine/source/engine/gc/texture.c \
  C:/projects/Aengine/source/engine/lib/png/lodepng.h \
+ C:/projects/Aengine/source/engine/general/acs.h \
+ C:/projects/Aengine/source/engine/types.h \
+ C:/projects/Aengine/source/engine/platform.h \
+ C:/projects/Aengine/source/engine/texture.h \
  C:/devkitPro/libogc/include/gccore.h \
  C:/devkitPro/libogc/include/ogc/dsp.h \
  C:/devkitPro/libogc/include/gctypes.h \
@@ -55,12 +59,16 @@ texture.o: C:/projects/Aengine/source/engine/gc/texture.c \
  C:/devkitPro/libogc/include/ogc/mutex.h \
  C:/devkitPro/libogc/include/ogc/system.h \
  C:/devkitPro/libogc/include/ogc/wiilaunch.h \
- C:/projects/Aengine/source/engine/texture.h \
- C:/projects/Aengine/source/engine/types.h \
- C:/projects/Aengine/source/engine/platform.h \
  C:/projects/Aengine/source/engine/gc/gc_types.h \
- C:/devkitPro/libogc/include/ogc/gx.h
+ C:/devkitPro/libogc/include/ogc/gx.h \
+ C:/projects/Aengine/source/engine/gc/debug.h \
+ C:/projects/Aengine/source/engine/gc/render.h \
+ C:/projects/Aengine/source/engine/wii/core.h
 C:/projects/Aengine/source/engine/lib/png/lodepng.h:
+C:/projects/Aengine/source/engine/general/acs.h:
+C:/projects/Aengine/source/engine/types.h:
+C:/projects/Aengine/source/engine/platform.h:
+C:/projects/Aengine/source/engine/texture.h:
 C:/devkitPro/libogc/include/gccore.h:
 C:/devkitPro/libogc/include/ogc/dsp.h:
 C:/devkitPro/libogc/include/gctypes.h:
@@ -116,8 +124,8 @@ C:/devkitPro/libogc/include/ogc/usbstorage.h:
 C:/devkitPro/libogc/include/ogc/mutex.h:
 C:/devkitPro/libogc/include/ogc/system.h:
 C:/devkitPro/libogc/include/ogc/wiilaunch.h:
-C:/projects/Aengine/source/engine/texture.h:
-C:/projects/Aengine/source/engine/types.h:
-C:/projects/Aengine/source/engine/platform.h:
 C:/projects/Aengine/source/engine/gc/gc_types.h:
 C:/devkitPro/libogc/include/ogc/gx.h:
+C:/projects/Aengine/source/engine/gc/debug.h:
+C:/projects/Aengine/source/engine/gc/render.h:
+C:/projects/Aengine/source/engine/wii/core.h:

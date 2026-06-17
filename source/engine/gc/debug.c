@@ -1,17 +1,15 @@
 // debug.c
+#include "engine/gc/debug.h"
 #include <gccore.h>
-#include <stdio.h>
 #include "engine/aengine.h"
-// asume que estos están declarados como extern en algún header del engine
+
 extern void* xfb[2];
 extern GXRModeObj* rmode;
 
-void aAssert(char* text) {
-    // detener GX
+void openTextConsole(){
     GX_AbortFrame();
     GX_Flush();
 
-    // reinicializar la consola sobre el framebuffer
     console_init(
         xfb[0],
         0, 0,
@@ -25,18 +23,45 @@ void aAssert(char* text) {
     VIDEO_Flush();
     VIDEO_WaitVSync();
     if(rmode->viTVMode & VI_NON_INTERLACE) VIDEO_WaitVSync();
+}
 
-    printf("\x1b[2;0H");
-    printf("|AENGINE ASSERT|\n\n");
-    printf("  %s\n\n", text);
-    printf("\nPress any key to exit.");
-    while(1) {
-        inputUpdate();
-        if((buttonsDown[0] | buttonsDown[1] | buttonsDown[2] | buttonsDown[3]) != 0){
-            platformExit();
-        }
-        else{
-            VIDEO_WaitVSync();
+void _aAssert(bool cond, const char* msg, const char* file, int line) {
+    #ifdef DEBUG_MODE
+    if (!cond) {
+        openTextConsole();
+        printf("\x1b[2;0H");
+        printf("|AENGINE ASSERT|\n\n");
+        printf("  %s\n\n", msg);
+        printf("  file: %s\n", file);
+        printf("  line: %d\n", line);
+        printf("\nPress any key to exit.");
+
+        while(1) {
+            inputUpdate();
+            if((buttonsDown[0] | buttonsDown[1] | buttonsDown[2] | buttonsDown[3]) != 0){
+                platformExit();
+            } else {
+                VIDEO_WaitVSync();
+            }
         }
     }
+    #endif
+}
+
+#include <time.h>
+#include <ogc/lwp_watchdog.h>
+
+u8 calculateFrameRate(void) {
+    static u8 frameCount = 0;
+    static u32 lastTime;
+    static u8 FPS = 0;
+    const u32 currentTime = ticks_to_millisecs(gettime());
+
+    frameCount++;
+    if(currentTime - lastTime > 1000) {
+        lastTime = currentTime;
+        FPS = frameCount;
+        frameCount = 0;
+    }
+    return FPS;
 }

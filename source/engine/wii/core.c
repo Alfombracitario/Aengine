@@ -5,26 +5,21 @@ extern Texture* gfxMouse;
 
 bool keyboardDown[256];
 
-void keyPress_cb(char key)//no está funcionando de momento
-{
-    if(key >= 256){
-        return;//tecla no válida
-    }
-    keyboardDown[(u8)key] = true;
-}
-
 void platformInit(){
     prepareVideo();
+    WUPC_Init();//Input vWii
     WPAD_Init();//input Wii
     PAD_Init();//input Gamecube
     ASND_Init();//Sonido
     USB_Initialize();
     MOUSE_Init();
-    KEYBOARD_Init(keyPress_cb);
+    KEYBOARD_Init(NULL);
 }
 
 void finishFrame(){
     //dibujar punteros
+    gpuSetTextureMode(true);
+    camSet2D();
     for (int i = 0; i < 4; i++) {
         // Solo dibujar si el IR es válido y no está en las esquinas o fuera de pantalla
             if (mouse[i].valid &&
@@ -44,6 +39,7 @@ void finishFrame(){
 }
 
 void platformExit(){
+    WUPC_Shutdown();
     for(int i = 0; i < 4; i++){
         WPAD_SetDataFormat(i, WPAD_FMT_BTNS); // resetear a modo simple
         WPAD_Disconnect(i); // desconectar cada wiimote

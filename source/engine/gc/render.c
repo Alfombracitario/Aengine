@@ -8,9 +8,13 @@
 #include "engine/gc/camera.h"
 
 #define validateDraw(tex) \
-    if (!tex || !tex->platformHandle) { \
-        aAssert("Invalid texture."); \
-    }
+    do { \
+        aAssert(tex,                 "validateDraw: texture is NULL"); \
+        aAssert(tex->platformHandle, "validateDraw: texture not uploaded to GPU"); \
+        aAssert(tex->width  > 0,     "validateDraw: texture width is 0"); \
+        aAssert(tex->height > 0,     "validateDraw: texture height is 0"); \
+        aAssert(gpuS.textureMode,    "validateDraw: textureMode is false"); \
+    } while(0)
 
 #define gpuDisableTexture() \
     do { \
@@ -111,7 +115,7 @@ void gpuSetAlphatestRef(u8 ref) {
 }
 
 
-void gpuSetZtestenable(bool enable){
+void gpuSetZtestEnable(bool enable){
     gpuS.zTest = enable;
     GX_SetZMode(enable, gpuS.zFunc, gpuS.zWrite);
 }
@@ -127,7 +131,7 @@ void gpuSetZwriteenable(bool enable){
 }
 
 //cullmode
-void gpuSetcullmode(u32 cullmode){
+void gpuSetCullmode(u32 cullmode){
     gpuS.cullmode = cullmode;
     GX_SetCullMode(cullmode);
 }
@@ -144,8 +148,25 @@ void gpuSetCopyClear(u32 color){
     gpuS.copyColor = color;
 }
 //Fog
+static void gpuApplyFog() {
+    if (!gpuS.fog.enabled) {
+        GX_SetFog(GX_FOG_NONE, 0, 1, 0.1f, 1, (GXColor){0, 0, 0, 255});
+        return;
+    }
+
+    GXColor col = {
+        (gpuS.fog.color >> 24) & 0xFF,
+        (gpuS.fog.color >> 16) & 0xFF,
+        (gpuS.fog.color >> 8)  & 0xFF,
+        0xFF  // alpha ignorado por GX
+    };
+
+    GX_SetFog(gpuS.fog.type, gpuS.fog.start, gpuS.fog.end, cam.near, cam.far, col);
+}
+
 void gpuSetFogEnable(bool enable) {
     gpuS.fog.enabled = enable;
+    gpuApplyFog();
 }
 
 void gpuSetFogType(u32 type) {
@@ -159,22 +180,6 @@ void gpuSetFogColor(u32 color) {
 void gpuSetFogRange(float start, float end) {
     gpuS.fog.start = start;
     gpuS.fog.end = end;
-}
-
-static void gpuApplyFog(float nearZ, float farZ) {
-    if (!gpuS.fog.enabled) {
-        GX_SetFog(GX_FOG_NONE, 0, 1, 0.1f, 1, (GXColor){0, 0, 0, 255});
-        return;
-    }
-
-    GXColor col = {
-        (gpuS.fog.color >> 24) & 0xFF,
-        (gpuS.fog.color >> 16) & 0xFF,
-        (gpuS.fog.color >> 8)  & 0xFF,
-        0xFF  // alpha ignorado por GX
-    };
-
-    GX_SetFog(gpuS.fog.type, gpuS.fog.start, gpuS.fog.end, nearZ, farZ, col);
 }
 
 void gpuSetTextureMode(bool enable){

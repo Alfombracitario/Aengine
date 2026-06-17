@@ -8,7 +8,20 @@ include $(DEVKITPPC)/wii_rules
 
 TARGET		:=	boot
 BUILD		:=	build
-SOURCES		:=	source source/engine/wii source/engine/gc source/engine source/scenes source/objects source/tiles source/effects source/engine/lib/png/
+SOURCES		:=	source \
+				source/engine/wii	\
+				source/engine/gc	\
+				source/engine	\
+				source/engine/general	\
+				source/engine/lib/png	\
+				source/scenes	\
+				source/objects	\
+				source/tiles	\
+				source/effects	\
+				source/scripts	\
+				source/platform/wii	\
+				source/platform/gc
+				
 DATA		:=	assets assets/audio assets/graphics
 TEXTURES	:=	textures
 INCLUDES	:=	source
@@ -18,13 +31,13 @@ CFLAGS      += -DCURRENT_PLATFORM=PLATFORM_$(PLATFORM)
 CXXFLAGS	=	$(CFLAGS)
 LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
-LIBS := -lfat
-LIBS	+= -lwiiuse -lbte -lm
-LIBS	+= -lvorbisidec -logg -lasnd
-LIBS	+= -logc
-LIBS	+= -lwiikeyboard
 
-LIBDIRS	:= $(PORTLIBS)
+LIBS := -lfat
+LIBS += -lwiiuse -lwupc -lbte
+LIBS += -lvorbisidec -logg -lasnd
+LIBS += -logc -lm
+LIBS += -lwiikeyboard
+LIBDIRS := $(PORTLIBS) $(CURDIR)/source/engine/lib/wupc
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 
@@ -119,6 +132,11 @@ $(OFILES_SOURCES) : $(HFILES)
 	@echo $(notdir $<)
 	$(bin2o)
 
+%.acs.o %_acs.h : %.acs
+	@echo $(notdir $<)
+	@$(bin2o)
+	
+	
 -include $(DEPENDS)
 
 endif
