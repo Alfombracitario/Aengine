@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
-#include "engine/platform.h"
+
+#include "engine/aengine.h"
 //funciones en compileTime
 #define buttonsCheckHeld(p, key)   (buttonsHeld[p] & (key))
 #define buttonsCheckDown(p, key)   (buttonsDown[p] & (key))

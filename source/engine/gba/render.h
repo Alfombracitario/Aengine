@@ -1,6 +1,5 @@
 #ifndef RENDER_H
 #define RENDER_H
-#include <gccore.h>
 #include "engine/texture.h"
 
 typedef struct {

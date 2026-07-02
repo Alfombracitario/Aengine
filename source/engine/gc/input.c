@@ -1,7 +1,6 @@
 #include <gccore.h>
 #include <ogc/pad.h>
 
-#include "engine/gc/core.h"
 #include "engine/input.h"
 
 u32 buttonsDown[platformTotalControls] = {0,0,0,0};

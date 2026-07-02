@@ -1,8 +1,7 @@
 #include "engine/gba/render.h"
 #include "engine/fastmath.h"
 #include "engine/gba/debug.h"
-#include "engine/gba/camera.h"
-
+//#include "engine/gba/camera.h"
 
 // render.c
 gpuState gpuS = {
