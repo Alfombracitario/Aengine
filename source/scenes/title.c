@@ -9,7 +9,7 @@ Texture* gfxIcon;
 
 static void sceneInit() {
     inputMode(true, false);//enable IR
-    gfxIcon = textureLoad(icon_acs,FMT_ACS|GFX_8888);
+    gfxIcon = textureLoad(icon_acs,FMT_ACS);
 }
 
 static void sceneUpdate() {

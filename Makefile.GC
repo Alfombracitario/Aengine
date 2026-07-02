@@ -18,6 +18,7 @@ SOURCES		:=	source	\
 				source/tiles	\
 				source/effects	\
 				source/scripts	\
+				source/models	\
 				source/platform/gc
 DATA		:=	assets assets/audio assets/graphics
 TEXTURES	:=	textures

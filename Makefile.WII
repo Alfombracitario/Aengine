@@ -19,6 +19,7 @@ SOURCES		:=	source \
 				source/tiles	\
 				source/effects	\
 				source/scripts	\
+				source/models	\
 				source/platform/wii	\
 				source/platform/gc
 				

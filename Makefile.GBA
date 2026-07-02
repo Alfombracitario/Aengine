@@ -9,15 +9,16 @@ include $(DEVKITARM)/gba_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source \
-				source/engine \
-				source/engine/gba \
-				source/engine/general \
-				source/scenes \
-				source/objects \
-				source/tiles \
-				source/effects \
-				source/scripts \
+SOURCES		:=	source	\
+				source/engine	\
+				source/engine/gba	\
+				source/engine/general	\
+				source/scenes	\
+				source/objects	\
+				source/tiles	\
+				source/effects	\
+				source/scripts	\
+				source/models	\
 				source/platform/gba 
 
 DATA		:=	assets assets/graphics

@@ -2,7 +2,7 @@
 #include "engine/fastmath.h"
 
 //this is the generic ACS reader, this won't use hardware shortcuts.
-//if the hardware needs it, ACS will have a separated implementation in that platform.
+//this means, if the hardware needs it, ACS will have a separated implementation in that platform.
 
 #define ACScolModeABGR1555   0
 #define ACScolModeARGB8888   1
@@ -13,7 +13,7 @@
 
 #define ACSmirror 01
 #define ACSpattern 00
-#define ACSrepeat 1
+#define ACSrepeat 10
 
 //función auxiliar
 inline void readCommand7(u8 byte, int* pInd, u32* rawPixels){

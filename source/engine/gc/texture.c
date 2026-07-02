@@ -44,7 +44,7 @@ static void convertToGXRGB565(const u8* src, u8* dst_raw, u32 width, u32 height)
     }
 }
 // src: índices lineales 1 byte por pixel
-static void convertToGXCI8(const u8* src, u8* dst, u32 width, u32 height) {
+static void convertTo8bpp(const u8* src, u8* dst, u32 width, u32 height) {
     for (u32 y = 0; y < height; y += 4) {
         for (u32 x = 0; x < width; x += 8) {
             for (u32 ty = 0; ty < 4; ty++)
@@ -54,7 +54,7 @@ static void convertToGXCI8(const u8* src, u8* dst, u32 width, u32 height) {
     }
 }
 // src: índices lineales 1 byte por pixel (4-bit cada uno, empacados en el conversor)
-static void convertToGXCI4(const u8* src, u8* dst, u32 width, u32 height) {
+static void convertTo4bpp(const u8* src, u8* dst, u32 width, u32 height) {
     for (u32 y = 0; y < height; y += 8) {
         for (u32 x = 0; x < width; x += 8) {
             for (u32 ty = 0; ty < 8; ty++)
@@ -81,19 +81,38 @@ static Texture textureFromRGBA(const u8* rawPixels, u32 w, u32 h) {
     tex.width           = (u16)w;
     tex.height          = (u16)h;
     tex.format          = GX_TF_RGBA8;
-    tex.flags           = 0;
     tex.platformHandle  = gt;
-    tex.origX           = 0;
-    tex.origY           = 0;
-    tex.tilesX          = 1;
-    tex.tilesY          = 1;
 
+    return tex;
+}
+
+static Texture textureTo565(const u8* rawPixels, u32 w, u32 h) {
+    Texture tex = {0};
+
+    u32 dataSize  = w * h * 4;
+    void* gxPixels = memalign(32, dataSize);
+    aAssert(gxPixels,"Texture convert error: gxPixels not valid");
+    convertToGXRGB565(rawPixels, (u8*)gxPixels, w, h);
+    DCFlushRange(gxPixels, dataSize);
+
+    GCtexture* gt = malloc(sizeof(GCtexture));
+    gt->pixels = gxPixels;
+
+    tex.width           = (u16)w;
+    tex.height          = (u16)h;
+    tex.format          = GX_TF_RGB565;
+    tex.platformHandle  = gt;
     return tex;
 }
 
 Texture* _textureLoad(const u8* buffer, u32 size, const u32 format) {
     Texture* tex = malloc(sizeof(Texture));
-    
+    tex->flags           = 0;
+    tex->origX           = 0;
+    tex->origY           = 0;
+    tex->tilesX          = 1;
+    tex->tilesY          = 1;
+
     if(!tex) return NULL;
 
     if(format == FMT_PNG){
@@ -111,6 +130,9 @@ Texture* _textureLoad(const u8* buffer, u32 size, const u32 format) {
         int cAmount, width, height, f;
 
         readACSheader(buffer,&cAmount,&width,&height,&f);
+        u8 bpp       = format >> 6;
+        u8 colorMode = (format >> 3) & 0b111;
+        
         rawPixels = (u32*)malloc(width * height * sizeof(u32));
         if(cAmount > 0){
             pal = (u32*)malloc((cAmount+1) * sizeof(u32));
@@ -121,7 +143,50 @@ Texture* _textureLoad(const u8* buffer, u32 size, const u32 format) {
         aAssert(out != -1,"Not valid ACS file");
         int x, y;
         //transformamos al formato solicitado.
+        if((format & GFX_MASK) == 0){
+            //dev no solicitó un formato, tendremos que analizar automáticamente qué hacer
+            
+        }
+        switch(format & GFX_MASK){
+            default:
+            case GFX_8888:
+            case GFX_888:
+            case GFX_1555:
                 *tex = textureFromRGBA((const u8*)rawPixels, tex->width, tex->height);
+            break;
+
+            case GFX_565:
+                if(bpp == 0){
+                    *tex = textureTo565((const u8*)rawPixels, tex->width, tex->height);
+                }
+                else{
+                    if(bpp > 4){
+                        
+                    }else{
+
+                    }
+                }
+            break;
+
+            case GFX_GRAY4:
+                
+            break;
+
+            case GFX_GRAY8:
+
+            break;
+
+            case GFX_8BPP:
+
+            break;
+
+            case GFX_1BPP:
+            case GFX_2BPP:
+            case GFX_4BPP:
+
+            break;
+        }
+                
 
         free(rawPixels);
         free(pal);
