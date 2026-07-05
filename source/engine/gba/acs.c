@@ -1,8 +1,7 @@
-#include "engine/general/acs.h"
+#include "engine/gba/acs.h"
 #include "engine/fastmath.h"
 
-//this is the generic ACS reader, this won't use hardware shortcuts.
-//this means, if the hardware needs it, ACS will have a separated implementation in that platform.
+//versión optimizada para GBA
 
 #define ACScolModeABGR1555   0
 #define ACScolModeARGB8888   1
@@ -18,7 +17,7 @@
 ACSHeader ACSh;
 
 //función auxiliar
-inline void readCommand7(u8 byte, int* pInd, u32* rawPixels){
+inline void readCommand7(u8 byte, int* pInd, u16* rawPixels){
     //determinar cual es el tipo de comando contra el que estamos tratando
     switch((byte>>5) & 0b011){
         case ACSpattern:{
@@ -44,7 +43,7 @@ inline void readCommand7(u8 byte, int* pInd, u32* rawPixels){
 
         default:{//repetición simple (01xxxxxx)
             //obtener último color
-            u32 col = rawPixels[*pInd-1];
+            u16 col = rawPixels[*pInd-1];
             u8 repeat = (byte & 0b111111)+1;
             for(int i = 0; i<repeat;i++){
                 rawPixels[(*pInd)++] = col;
@@ -52,7 +51,7 @@ inline void readCommand7(u8 byte, int* pInd, u32* rawPixels){
         break;}
     }
 }
-inline void readCommand8(u8 byte, int* pInd, u32* rawPixels){
+inline void readCommand8(u8 byte, int* pInd, u16* rawPixels){
     switch(byte>>6){
         case ACSpattern:{//repeat pattern
             //CCP PPRRR
@@ -77,7 +76,7 @@ inline void readCommand8(u8 byte, int* pInd, u32* rawPixels){
 
         default:{//repetición simple, caso 10 u 11
             //obtener último indice
-            u32 pixel = rawPixels[*pInd-1];
+            u16 pixel = rawPixels[*pInd-1];
             u8 repeat = (byte & 0b1111111)+1;
             for(int i = 0; i<repeat;i++){
                 rawPixels[(*pInd)++] = pixel;
@@ -115,7 +114,7 @@ bool readACSheader(const u8* data){
     return true;
 }
 
-int importACS(const u8* data, u32* rawPixels, u32* pal, Texture* tex){
+int importACS(const u8* data, u16* rawPixels, u16* pal, Texture* tex){
     if(ACSh.valid == false){
         bool ok = readACSheader(data);
         if(ok == false){return false;}
@@ -131,59 +130,51 @@ int importACS(const u8* data, u32* rawPixels, u32* pal, Texture* tex){
     tex->width  = resX; 
     tex->height = resY;
 
-    u32 imgRes = (u32)resX *(u32)resY;
+    u16 imgRes = (u16)resX *(u16)resY;
 
     //  MODO INDEXADO
     if(colorCount > 0){
         switch(colorMode){
             case ACScolModeABGR1555:
                 for(int i = 0; i <= colorCount; i++){
-                    const u16 color = ((u16)data[ind] << 8) | data[ind+1]; ind += 2;
-                    u32 a = (color >> 15) & 1;
-                    u32 r = (color >> 10) & 0x1F;
-                    u32 g = (color >>  5) & 0x1F;
-                    u32 b = (color      ) & 0x1F;
-                    pal[i] = ((b<<3|b>>2) << 24)
-                        | ((g<<3|g>>2) << 16)
-                        | ((r<<3|r>>2) <<  8)
-                        | (a ? 0xFF : 0x00);
+                    pal[i] = ((u16)data[ind] << 8) | data[ind+1]; ind += 2;
                 }
             break;
 
             case ACScolModeARGB8888:
                 for(int i = 0; i <= colorCount; i++){
-                    u32 a = data[ind++];
-                    u32 r = data[ind++];
-                    u32 g = data[ind++];
-                    u32 b = data[ind++];
-                    pal[i] = (r << 24) | (g << 16) | (b << 8) | a;
+                    u8 a = data[ind++] >> 7;
+                    u8 r = data[ind++] >> 3;
+                    u8 g = data[ind++] >> 3;
+                    u8 b = data[ind++] >> 3;
+                    pal[i] = (u16)((a<<15)|(r<<10)|(g<<5)|b);
                 }
             break;
 
             case ACScolModeGrayScale4:
                 for(int i = 0; i <= colorCount; i++){
-                    u32 v  = data[ind++];
-                    u32 hi = ((v >> 4) & 0xF) * 17;
-                    u32 lo =  (v & 0xF)       * 17;
-                    pal[i++] = (hi << 24) | (hi << 16) | (hi << 8) | 0xFF;
+                    u8 v  = data[ind++];
+                    u8 hi = (v & 0xF0) >> 3;
+                    u8 lo = (v & 0x0F) << 1;
+                    pal[i++] = 0x8000 | (hi<<10) | (hi<<5) | hi;
                     if(i >= colorCount) break;
-                    pal[i]   = (lo << 24) | (lo << 16) | (lo << 8) | 0xFF;
+                    pal[i]   = 0x8000 | (lo<<10) | (lo<<5) | lo;
                 }
             break;
 
             case ACScolModeGrayScale8:
                 for(int i = 0; i <= colorCount; i++){
-                    u32 v = data[ind++];
-                    pal[i] = (v << 24) | (v << 16) | (v << 8) | 0xFF;
+                    u8 v = data[ind++] >> 3;
+                    pal[i] = 0x8000 | (u16)((v<<10)|(v<<5)|v);
                 }
             break;
 
             case ACScolModeRGB888:
                 for(int i = 0; i <= colorCount; i++){
-                    u32 r = data[ind++];
-                    u32 g = data[ind++];
-                    u32 b = data[ind++];
-                    pal[i] = (r << 24) | (g << 16) | (b << 8) | 0xFF;
+                    u8 r = data[ind++] >> 3;
+                    u8 g = data[ind++] >> 3;
+                    u8 b = data[ind++] >> 3;
+                    pal[i] = 0x8000 | (u16)((r<<10)|(g<<5)|b);
                 }
             break;
         }
@@ -206,8 +197,6 @@ int importACS(const u8* data, u32* rawPixels, u32* pal, Texture* tex){
         int pInd    = 0;
         u8  part    = 0;
 
-        //  HOT LOOP — bit de control desempaquetado de a 8 bits
-        //  para reducir las divisiones/módulos por iteración.
         switch(bpp){
             // -------- 8 BPP --------
             case 3:
@@ -314,7 +303,6 @@ int importACS(const u8* data, u32* rawPixels, u32* pal, Texture* tex){
                 while(pInd < (int)imgRes){
                     u8 hi = data[ind++];
                     u8 lo = data[ind++];
-
                     if(hi < 0x80){
                         if((hi | lo) != 0){
                             readCommand7(hi, &pInd, rawPixels);
@@ -325,24 +313,16 @@ int importACS(const u8* data, u32* rawPixels, u32* pal, Texture* tex){
                             continue;
                         }
                     }
-                    const u16 color = ((u16)hi << 8) | lo;
-                    u32 a = (color >> 15) & 1;
-                    u32 r = (color >> 10) & 0x1F;
-                    u32 g = (color >>  5) & 0x1F;
-                    u32 b = (color      ) & 0x1F;
-                    rawPixels[pInd++] = ((b<<3|b>>2) << 24)
-                        | ((g<<3|g>>2) << 16)
-                        | ((r<<3|r>>2) <<  8)
-                        | (a ? 0xFF : 0x00);
+                    rawPixels[pInd++] = ((u16)hi << 8) | lo;
                 }
             break;
 
             case ACScolModeARGB8888:
                 for(int i = 0; i < (int)imgRes; i++){
-                    u8 a = data[ind++];
-                    u8 r = data[ind++];
-                    u8 g = data[ind++];
-                    u8 b = data[ind++];
+                    u8 a = data[ind++] >> 7;
+                    u8 r = data[ind++] >> 3;
+                    u8 g = data[ind++] >> 3;
+                    u8 b = data[ind++] >> 3;
                     if(a == 0){
                         if((r | g | b) != 0){
                             readCommand7(r, &i, rawPixels);
@@ -353,28 +333,50 @@ int importACS(const u8* data, u32* rawPixels, u32* pal, Texture* tex){
                             continue;
                         }
                     }
-                    rawPixels[i] = (r << 24) | (g << 16) | (b << 8) | a;
+                    rawPixels[i] = (u16)((a<<15)|(r<<10)|(g<<5)|b);
                 }
             break;
 
             case ACScolModeGrayScale4:
-            //no commands, just raw data? yeah this sounds like a bug, I'll check later my own documentation lol
-                for(int i = 0; i < (int)imgRes; i++){
-                    u32 v  = data[ind++];
-                    u32 hi = ((v >> 4) & 0xF) * 17;
-                    u32 lo = (v & 0xF)        * 17;
-                    rawPixels[i++] = (hi << 24) | (hi << 16) | (hi << 8) | 0xFF;
-                    rawPixels[i]   = (lo << 24) | (lo << 16) | (lo << 8) | 0xFF;
+                for(int i = 0; i < 16; i++){
+                    pal[i] = 0x8000 | (u16)((i<<11)|(1<<6)|(1<<1));
                 }
             break;
 
-            case ACScolModeGrayScale8:
-                return -1;
-            break;
+            case ACScolModeGrayScale8:{
+                for(int i = 0; i < 32; i++){
+                    pal[i] = 0x8000 | (u16)((i<<10)|(i<<5)|i);
+                }
+
+                int ByteCtrlCount = ((int)data[ind]<<8) | data[ind+1]; ind+=2;
+                int CommandsCount = ((int)data[ind]<<8) | data[ind+1]; ind+=2;
+
+                const u8* ctrlBase = data + ind;
+                const u8* cmdPtr   = data + ind + ByteCtrlCount;
+                const u8* pixPtr   = data + ind + ByteCtrlCount + CommandsCount;
+                int ctrlPos = 0;
+
+                while(pInd < (int)imgRes){
+                    u8 ctrl = ctrlBase[ctrlPos >> 3];
+                    int startBit = ctrlPos & 7;
+                    int bitsLeft = 8 - startBit;
+                    int pixLeft  = (int)imgRes - pInd;
+                    int n = bitsLeft < pixLeft ? bitsLeft : pixLeft;
+
+                    u8 mask = 0x80 >> startBit;
+                    for(int b = 0; b < n; b++, mask >>= 1){
+                        if(ctrl & mask){
+                            readCommand8(*cmdPtr++, &pInd, rawPixels);
+                        } else {
+                            rawPixels[pInd++] = *pixPtr++ >> 3;
+                        }
+                    }
+                    ctrlPos += n;
+                }
+            break;}
 
             case ACScolModeRGB888:
                 return -1;
-            break;
         }
     }
     return 1;//no issues found in the file

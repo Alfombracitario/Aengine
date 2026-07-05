@@ -76,6 +76,9 @@
 #define platformColorFormat     1555
 #define platformColorOrder      colorOrderARGB
 
+//other
+#define platformACSmode         16
+
 void platformInit();
 void platformExit();
 void finishFrame();

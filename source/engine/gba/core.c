@@ -7,6 +7,7 @@
 void platformInit(){
 	irqInit();
 	irqEnable(IRQ_VBLANK);
+	SetMode( MODE_0 | BG0_ON );
 }
 
 void finishFrame(){

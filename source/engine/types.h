@@ -9,6 +9,7 @@
 #if CURRENT_PLATFORM == PLATFORM_SNES
 #include <snes.h>
 #else
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>   // NULL, size_t

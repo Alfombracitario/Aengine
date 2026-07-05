@@ -1,5 +1,4 @@
-objectmanager.o: C:/projects/Aengine/source/engine/objectmanager.c \
- C:/projects/Aengine/source/engine/objectmanager.h \
+title.o: C:/projects/Aengine/source/scenes/title.c \
  C:/projects/Aengine/source/engine/aengine.h \
  C:/projects/Aengine/source/engine/platform.h \
  C:/projects/Aengine/source/engine/fastmath.h \
@@ -26,8 +25,11 @@ objectmanager.o: C:/projects/Aengine/source/engine/objectmanager.c \
  C:/devkitPro/libgba/include/gba_video.h \
  C:/projects/Aengine/source/engine/gba/core.h \
  C:/projects/Aengine/source/engine/gba/debug.h \
- C:/projects/Aengine/source/engine/input.h
-C:/projects/Aengine/source/engine/objectmanager.h:
+ C:/projects/Aengine/source/engine/input.h \
+ C:/projects/Aengine/source/scenes/title.h \
+ C:/projects/Aengine/source/engine/spritemanager.h \
+ C:/projects/Aengine/source/objects/player.h \
+ C:/projects/Aengine/build/icon_acs.h
 C:/projects/Aengine/source/engine/aengine.h:
 C:/projects/Aengine/source/engine/platform.h:
 C:/projects/Aengine/source/engine/fastmath.h:
@@ -55,3 +57,7 @@ C:/devkitPro/libgba/include/gba_video.h:
 C:/projects/Aengine/source/engine/gba/core.h:
 C:/projects/Aengine/source/engine/gba/debug.h:
 C:/projects/Aengine/source/engine/input.h:
+C:/projects/Aengine/source/scenes/title.h:
+C:/projects/Aengine/source/engine/spritemanager.h:
+C:/projects/Aengine/source/objects/player.h:
+C:/projects/Aengine/build/icon_acs.h:

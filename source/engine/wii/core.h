@@ -70,6 +70,13 @@
 // Network
 #define platformHasWifi         1       // Platform has built-in WiFi
 
+// Colors
+#define platformColorFormat     8888
+#define platformColorOrder      colorOrderRGBA
+
+//other
+#define platformACSmode         32
+
 void platformInit();
 void platformExit();
 void finishFrame();

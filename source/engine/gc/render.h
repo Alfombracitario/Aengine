@@ -142,7 +142,10 @@ void drawRectangleColour(f32 x, f32 y, f32 w, f32 h, u32 colorTopLeft, u32 color
 //viewport
 void viewportResize(u16 width, u16 height);
 void viewportMove(u16 x, u16 y);
-
+//matrices
+void objectView(f32 posx, f32 posy, f32 posz,
+                        f32 angx, f32 angy, f32 angz,
+                        f32 scalx, f32 scaly, f32 scalz);
 //
 #define cmpFuncNever        GX_NEVER
 #define cmpFuncLess         GX_LESS
@@ -169,7 +172,10 @@ void viewportMove(u16 x, u16 y);
 //incluso más macros
 
 //macros de vertices genéricas
-#define vertexBegin(count)             GX_Begin(GX_QUADS, GX_VTXFMT0, count)
+#define gpuTriangles                GX_TRIANGLES
+#define gpuQuads                    GX_QUADS
+
+#define vertexBegin(prim, count)       GX_Begin(prim, GX_VTXFMT0, count)
 #define vertexEnd()                    GX_End()
 
 #define vertexPos2(x, y)               GX_Position2f32(x, y)

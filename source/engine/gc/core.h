@@ -66,11 +66,14 @@
 #define platformHasStereo       1       // APU supports stereo output
 
 // Network
-#define platformHasWifi         0       // Platform has built-in WiFi
+#define platformHasWifi         0       // No Wi-fi here :<
 
 // Colors
 #define platformColorFormat     8888
 #define platformColorOrder      colorOrderRGBA
+
+//other
+#define platformACSmode         32
 
 void platformInit();
 void platformExit();

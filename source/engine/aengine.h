@@ -9,12 +9,14 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 // ── Código del engine ─────────────────────────────────────────────────────────
 
 #include "engine/fastmath.h"
 #include "engine/scenemanager.h"
 #include "engine/texture.h"
+#include "engine/mem.h"
 
 // ── Código específico por plataforma ──────────────────────────────────────────
 #include "engine/general/color.h"
@@ -56,6 +58,7 @@
 
 //Exclusivo de GBA
 #if CURRENT_PLATFORM == PLATFORM_GBA
+  #include <gba.h>
   #include <gba_console.h>
   #include <gba_video.h>
   #include <gba_interrupt.h>

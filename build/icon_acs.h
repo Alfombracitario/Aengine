@@ -6,7 +6,7 @@
 extern const uint8_t icon_acs[];
 extern const uint8_t icon_acs_end[];
 #if __cplusplus >= 201103L
-static constexpr size_t icon_acs_size=115529;
+static constexpr size_t icon_acs_size=3635;
 #else
-static const size_t icon_acs_size=115529;
+static const size_t icon_acs_size=3635;
 #endif

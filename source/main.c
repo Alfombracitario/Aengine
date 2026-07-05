@@ -23,7 +23,7 @@ Texture* gfxMouse;
 int main(){
     platformInit(); 
 
-    gfxFont  = textureLoad(gfxfont_png,FMT_PNG);
+    gfxFont = textureLoad(gfxfont_png,FMT_PNG);
 
     #if platformHasUSBmouse
         gfxMouse = textureLoad(gfxmouse_png,FMT_PNG);

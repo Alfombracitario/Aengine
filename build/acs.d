@@ -1,11 +1,11 @@
-objectmanager.o: C:/projects/Aengine/source/engine/objectmanager.c \
- C:/projects/Aengine/source/engine/objectmanager.h \
- C:/projects/Aengine/source/engine/aengine.h \
- C:/projects/Aengine/source/engine/platform.h \
- C:/projects/Aengine/source/engine/fastmath.h \
+acs.o: C:/projects/Aengine/source/engine/gba/acs.c \
+ C:/projects/Aengine/source/engine/gba/acs.h \
  C:/projects/Aengine/source/engine/types.h \
- C:/projects/Aengine/source/engine/scenemanager.h \
+ C:/projects/Aengine/source/engine/platform.h \
  C:/projects/Aengine/source/engine/texture.h \
+ C:/projects/Aengine/source/engine/aengine.h \
+ C:/projects/Aengine/source/engine/fastmath.h \
+ C:/projects/Aengine/source/engine/scenemanager.h \
  C:/projects/Aengine/source/engine/mem.h \
  C:/projects/Aengine/source/engine/general/color.h \
  C:/devkitPro/libgba/include/gba.h \
@@ -27,13 +27,13 @@ objectmanager.o: C:/projects/Aengine/source/engine/objectmanager.c \
  C:/projects/Aengine/source/engine/gba/core.h \
  C:/projects/Aengine/source/engine/gba/debug.h \
  C:/projects/Aengine/source/engine/input.h
-C:/projects/Aengine/source/engine/objectmanager.h:
-C:/projects/Aengine/source/engine/aengine.h:
-C:/projects/Aengine/source/engine/platform.h:
-C:/projects/Aengine/source/engine/fastmath.h:
+C:/projects/Aengine/source/engine/gba/acs.h:
 C:/projects/Aengine/source/engine/types.h:
-C:/projects/Aengine/source/engine/scenemanager.h:
+C:/projects/Aengine/source/engine/platform.h:
 C:/projects/Aengine/source/engine/texture.h:
+C:/projects/Aengine/source/engine/aengine.h:
+C:/projects/Aengine/source/engine/fastmath.h:
+C:/projects/Aengine/source/engine/scenemanager.h:
 C:/projects/Aengine/source/engine/mem.h:
 C:/projects/Aengine/source/engine/general/color.h:
 C:/devkitPro/libgba/include/gba.h:

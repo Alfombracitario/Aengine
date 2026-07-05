@@ -17,7 +17,7 @@ typedef struct {
 
 extern ACSHeader ACSh;
 
-int importACS(const u8* data, u32* rawPixels, u32* pal, Texture* tex);
+int importACS(const u8* data, u16* rawPixels, u16* pal, Texture* tex);
 bool readACSheader(const u8* data);
 
 #endif

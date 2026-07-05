@@ -2,6 +2,7 @@
 #include "objects/player.h"
 
 int playerID = -1;
+extern Texture gfxIcon;
 
 // 1) Tabla virtual del player
 const SpriteVTable playerVT = {
@@ -11,9 +12,9 @@ const SpriteVTable playerVT = {
     playerDestroy
 };
 
-// 2) Implementaciones
 void playerInit(int id) {
-    Sprite* inst = &spritePool[id];
+    Spr* spr = &spritePool[id];
+    spr->image = &gfxIcon;
 }
 
 void playerUpdate(int id) {

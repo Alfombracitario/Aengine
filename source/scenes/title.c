@@ -1,5 +1,7 @@
 #include "engine/aengine.h"
 #include "scenes/title.h"
+#include "engine/spritemanager.h"
+#include "objects/player.h"
 
 //assets
 #include "icon_acs.h"
@@ -9,15 +11,17 @@ Texture* gfxIcon;
 
 static void sceneInit() {
     inputMode(true, false);//enable IR
-    gfxIcon = textureLoad(icon_acs,FMT_ACS);
+    gfxIcon = loadSprite(icon_acs,icon_acs_size,FMT_ACS|GFX_8BPP);
+    spriteManagerInit();
+
+    playerID = spriteCreate(&playerVT, 0, 0);
+    
 }
 
 static void sceneUpdate() {
     
 }
-static void sceneDraw() {
-    drawTexture(gfxIcon,0,0);
-    
+static void sceneDraw() {    
 }
 static void sceneExit() {
     //Free resources

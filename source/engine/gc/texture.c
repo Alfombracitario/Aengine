@@ -1,5 +1,4 @@
 #include "engine/lib/png/lodepng.h"
-#include "engine/general/acs.h"
 #include <gccore.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,6 +8,7 @@
 #include "engine/gc/debug.h"
 #include "engine/gc/render.h"
 #include "engine/wii/core.h"
+#include "engine/general/acs.h"
 
 static void convertToGXRGBA8(const u8* src, u8* dst, u32 width, u32 height) {
     for (u32 y = 0; y < height; y += 4) {
@@ -127,13 +127,13 @@ Texture* _textureLoad(const u8* buffer, u32 size, const u32 format) {
     else{
         u32* rawPixels = NULL;
         u32* pal = NULL;
-        int cAmount, width, height, f;
 
-        readACSheader(buffer,&cAmount,&width,&height,&f);
-        u8 bpp       = format >> 6;
-        u8 colorMode = (format >> 3) & 0b111;
+        readACSheader(buffer);
+        u8 bpp = ACSh.bpp;
+        u8 colorMode = ACSh.colorMode;
+        u8 cAmount = ACSh.colorCount;
         
-        rawPixels = (u32*)malloc(width * height * sizeof(u32));
+        rawPixels = (u32*)malloc(ACSh.width * ACSh.height * sizeof(u32));
         if(cAmount > 0){
             pal = (u32*)malloc((cAmount+1) * sizeof(u32));
         }

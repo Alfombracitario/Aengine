@@ -56,7 +56,7 @@ gpuState gpuS = {
     .viewWidth  = 640,
 };
 
-//variables de GRRLIB
+//variables copiadas de GRRLIB :>
 extern Mtx      GXmodelView2D;
 static guVector axis = (guVector){0.0f, 0.0f, 1.0f};
 
@@ -125,11 +125,10 @@ void gpuSetZfunc(u32 cmp_function){
     GX_SetZMode(gpuS.zTest, cmp_function, gpuS.zWrite);
 }
 
-void gpuSetZwriteenable(bool enable){
+void gpuSetZwriteEnable(bool enable){
     gpuS.zWrite = enable;
     GX_SetZMode(gpuS.zTest, gpuS.zFunc, enable);
 }
-
 //cullmode
 void gpuSetCullmode(u32 cullmode){
     gpuS.cullmode = cullmode;
@@ -495,4 +494,49 @@ void viewportMove(u16 x, u16 y){
     gpuS.viewX = x;
     gpuS.viewY = y;
     GX_SetViewport(x, y, gpuS.viewWidth, gpuS.viewHeight, 0.0f, 1.0f);
+}
+
+//matrices
+
+void objectView(f32 posx, f32 posy, f32 posz,
+                        f32 angx, f32 angy, f32 angz,
+                        f32 scalx, f32 scaly, f32 scalz) {
+    Mtx objMtx, m, mv, mvi;
+
+    guMtxIdentity(objMtx);
+
+    if ((scalx != 1.0f) || (scaly != 1.0f) || (scalz != 1.0f)) {
+        guMtxIdentity(m);
+        guMtxScaleApply(m, m, scalx, scaly, scalz);
+        guMtxConcat(m, objMtx, objMtx);
+    }
+
+    if ((angx != 0.0f) || (angy != 0.0f) || (angz != 0.0f)) {
+        Mtx rx, ry, rz;
+        guVector axisx = {1, 0, 0};
+        guVector axisy = {0, 1, 0};
+        guVector axisz = {0, 0, 1};
+
+        guMtxIdentity(m);
+        guMtxRotAxisDeg(rx, &axisx, angx);
+        guMtxRotAxisDeg(ry, &axisy, angy);
+        guMtxRotAxisDeg(rz, &axisz, angz);
+        guMtxConcat(ry, rx, m);
+        guMtxConcat(m, rz, m);
+
+        guMtxConcat(m, objMtx, objMtx);
+    }
+
+    if ((posx != 0.0f) || (posy != 0.0f) || (posz != 0.0f)) {
+        guMtxIdentity(m);
+        guMtxTransApply(m, m, posx, posy, posz);
+        guMtxConcat(m, objMtx, objMtx);
+    }
+
+    guMtxConcat(cam.view, objMtx, mv);
+    GX_LoadPosMtxImm(mv, GX_PNMTX0);
+
+    guMtxInverse(mv, mvi);
+    guMtxTranspose(mvi, mv);
+    GX_LoadNrmMtxImm(mv, GX_PNMTX0);
 }

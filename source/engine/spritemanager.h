@@ -1,7 +1,9 @@
-#ifndef OBJECTMANAGER_H
-#define OBJECTMANAGER_H
+#ifndef SPRITEMANAGER_H
+#define SPRITEMANAGER_H
 
 #define MAX_SPRITES 128
+#include "engine/types.h"
+#include "engine/texture.h"
 
 typedef void (*SpriteFunc)(int id);
 
@@ -15,10 +17,14 @@ typedef struct SpriteVTable {
 typedef struct Sprite {
     u16 x, y;
     u8 flags;
-    u16 tile;
+    u16 affineIndex;
+    u8 palette;
+    Texture* image;
     const SpriteVTable* vt;
     bool active;
-} Sprite;
+} Spr;
+
+extern Spr spritePool[MAX_SPRITES];
 
 // --- Functions ---
 void spriteManagerInit();
@@ -29,6 +35,6 @@ void spriteManagerUpdate();
 void spriteManagerRender();
 void spriteManagerDestroyAll();
 
-extern Sprite spritePool[MAX_SPRITES];
+extern Spr spritePool[MAX_SPRITES];
 
 #endif

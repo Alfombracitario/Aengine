@@ -3,21 +3,27 @@
 
 typedef struct Texture {
     u32 flags;
-    u16 width;
-    u16 height;
-    u16 tilesX;
-    u16 tilesY;
-    u16 origX;
-    u16 origY;    
+    u16 width, height;
+    u16 tilesX, tilesY;
+    u16 origX, origY;
     u8  format;
-    void* platformHandle; // nullptr = fallo o no inicializada
+    u8  paletteBank;
+
+    void* platformHandle; // fuente de verdad: lo que da el allocator, se usa para free()
+    void* tiles;          // == platformHandle (o offset conocido dentro de él), solo para comodidad de lectura/escritura de píxeles
+    void* palette;        // puntero a la paleta ya en VRAM (zona separada, no offset de platformHandle)
 } Texture;
 
 #define textureLoad(name, format) _textureLoad(name, name##_size, format)
+#define spriteLoad(name, format)  loadSprite(name, name##_size, format)
+#define tileLoad(name, format)    loadTile(name, name##_size, format)
 
 Texture* _textureLoad   (const u8* buffer, u32 size,const u32 format);
 Texture* textureLoadFile (const char* path,const u32 format);
-void    textureFree     (Texture* tex);
+void     textureFree     (Texture* tex);
+
+Texture* loadSprite(const u8* buffer, u32 size, const u32 format);
+Texture* loadTile(const u8* buffer, u32 size, const u32 format);
 
 inline void initTiles(Texture* tex, u16 tx, u16 ty) {
     tex->tilesX = tx;
@@ -29,6 +35,7 @@ inline void textureSetOrig(Texture* tex, u16 x, u16 y) {
 }
 
 // Format field (exclusive)
+
 #define FMT_MASK     0b11000000
 
 #define FMT_PNG      0b10000000
